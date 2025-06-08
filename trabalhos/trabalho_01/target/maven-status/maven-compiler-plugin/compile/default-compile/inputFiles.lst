@@ -1,0 +1,12 @@
+/workspaces/POO-INF008-IFBA/trabalhos/trabalho_01/src/main/java/uni/org/app/Main.java
+/workspaces/POO-INF008-IFBA/trabalhos/trabalho_01/src/main/java/uni/org/models/event/Course.java
+/workspaces/POO-INF008-IFBA/trabalhos/trabalho_01/src/main/java/uni/org/models/event/Event.java
+/workspaces/POO-INF008-IFBA/trabalhos/trabalho_01/src/main/java/uni/org/models/event/Fair.java
+/workspaces/POO-INF008-IFBA/trabalhos/trabalho_01/src/main/java/uni/org/models/event/Lecture.java
+/workspaces/POO-INF008-IFBA/trabalhos/trabalho_01/src/main/java/uni/org/models/event/Workshop.java
+/workspaces/POO-INF008-IFBA/trabalhos/trabalho_01/src/main/java/uni/org/models/participant/ExternalPerson.java
+/workspaces/POO-INF008-IFBA/trabalhos/trabalho_01/src/main/java/uni/org/models/participant/Participant.java
+/workspaces/POO-INF008-IFBA/trabalhos/trabalho_01/src/main/java/uni/org/models/participant/Student.java
+/workspaces/POO-INF008-IFBA/trabalhos/trabalho_01/src/main/java/uni/org/models/participant/Teacher.java
+/workspaces/POO-INF008-IFBA/trabalhos/trabalho_01/src/main/java/uni/org/ui/Menu.java
+/workspaces/POO-INF008-IFBA/trabalhos/trabalho_01/src/main/java/uni/org/utils/Console.java

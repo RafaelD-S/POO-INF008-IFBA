@@ -1,0 +1,9 @@
+uni/org/ui/Menu.class
+uni/org/models/participant/Participant.class
+uni/org/models/event/Fair.class
+uni/org/models/event/Event.class
+uni/org/models/event/Workshop.class
+uni/org/models/event/Course.class
+uni/org/app/Main.class
+uni/org/models/event/Lecture.class
+uni/org/utils/Console.class
