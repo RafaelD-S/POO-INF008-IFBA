@@ -13,10 +13,14 @@ public class Console {
             System.out.println(item);
         }
     }
-
+    
     public static void log(ArrayList<String> itemList, String message) {
         for (String item : itemList) {
             System.out.println(message + item);
         }
+    }
+    
+    public static void warn(String message) {
+        System.out.println("[WARNING]: " + message);
     }
 }

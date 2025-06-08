@@ -1,4 +1,6 @@
 /workspaces/POO-INF008-IFBA/trabalhos/trabalho_01/src/main/java/uni/org/app/Main.java
+/workspaces/POO-INF008-IFBA/trabalhos/trabalho_01/src/main/java/uni/org/controlers/EventControl.java
+/workspaces/POO-INF008-IFBA/trabalhos/trabalho_01/src/main/java/uni/org/controlers/ParticipantContro.java
 /workspaces/POO-INF008-IFBA/trabalhos/trabalho_01/src/main/java/uni/org/models/event/Course.java
 /workspaces/POO-INF008-IFBA/trabalhos/trabalho_01/src/main/java/uni/org/models/event/Event.java
 /workspaces/POO-INF008-IFBA/trabalhos/trabalho_01/src/main/java/uni/org/models/event/Fair.java
@@ -8,5 +10,7 @@
 /workspaces/POO-INF008-IFBA/trabalhos/trabalho_01/src/main/java/uni/org/models/participant/Participant.java
 /workspaces/POO-INF008-IFBA/trabalhos/trabalho_01/src/main/java/uni/org/models/participant/Student.java
 /workspaces/POO-INF008-IFBA/trabalhos/trabalho_01/src/main/java/uni/org/models/participant/Teacher.java
+/workspaces/POO-INF008-IFBA/trabalhos/trabalho_01/src/main/java/uni/org/services/Certificate.java
 /workspaces/POO-INF008-IFBA/trabalhos/trabalho_01/src/main/java/uni/org/ui/Menu.java
 /workspaces/POO-INF008-IFBA/trabalhos/trabalho_01/src/main/java/uni/org/utils/Console.java
+/workspaces/POO-INF008-IFBA/trabalhos/trabalho_01/src/main/java/uni/org/utils/FileUtil.java

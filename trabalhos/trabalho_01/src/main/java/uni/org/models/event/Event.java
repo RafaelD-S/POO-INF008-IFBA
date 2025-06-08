@@ -63,6 +63,14 @@ public abstract class Event {
 	}
 
 	public void printEvent() {
-		Console.log("Event: " + name + "\nType: " + type + "\nDate: " + date + "\nLocation: " + location + "\nCapacity: " + capacity);
+		Console.log("Name: " + name);
+		Console.log("Type: " + type);
+		Console.log("Date: " + date);
+		Console.log("Location: " + location);
+
+		if (capacity > 1)
+			Console.log("Capacity: " + capacity + " People");
+		else 
+			Console.log("Capacity: " + capacity + " Person");
 	}
 }
