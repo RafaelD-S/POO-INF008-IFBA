@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import uni.org.utils.Console;
+
 public class FileUtil {
 
     public static void createTxt(String path, String name, String text) {
@@ -11,7 +13,7 @@ public class FileUtil {
             File directory = new File(path);
             if (!directory.exists()) {
                 if (!directory.mkdirs()) {
-                    System.out.println("Failed to create directory: " + path);
+                    Console.log("Failed to create directory: " + path);
                     return;
                 }
             }
@@ -19,9 +21,8 @@ public class FileUtil {
             FileWriter writer = new FileWriter(new File(directory, name + ".txt"));
             writer.write(text);
             writer.close();
-            System.out.println("File created and written successfully.");
         } catch (IOException e) {
-            System.out.println("An error occurred.");
+            Console.log("An error occurred.");
             e.printStackTrace();
         }
     }
