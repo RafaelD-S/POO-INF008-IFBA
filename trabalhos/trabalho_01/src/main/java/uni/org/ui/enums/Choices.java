@@ -19,7 +19,7 @@ public enum Choices {
     }
 
     public List<String> getListaVeiculos() {
-        return new ArrayList<>(listaVeiculos); // retorna uma cópia para proteger o original
+        return new ArrayList<>(listaVeiculos); 
     }
 
     public static List<String> get(String nome) {
