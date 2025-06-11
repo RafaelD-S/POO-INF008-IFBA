@@ -12,19 +12,19 @@ public enum Choices {
     EVENTS_MODALITY(Arrays.asList("Presential", "Remote"));
 
 
-    private final List<String> listaVeiculos;
+    private final List<String> choiceList;
 
-    Choices(List<String> listaVeiculos) {
-        this.listaVeiculos = new ArrayList<>(listaVeiculos);
+    Choices(List<String> choiceList) {
+        this.choiceList = new ArrayList<>(choiceList);
     }
 
-    public List<String> getListaVeiculos() {
-        return new ArrayList<>(listaVeiculos); 
+    public List<String> getChoiceList() {
+        return new ArrayList<>(choiceList); 
     }
 
     public static List<String> get(String nome) {
         try {
-            return Choices.valueOf(nome.toUpperCase()).getListaVeiculos();
+            return Choices.valueOf(nome.toUpperCase()).getChoiceList();
         } catch (IllegalArgumentException e) {
             System.out.println("Tipo inválido: " + nome);
             return new ArrayList<>();
