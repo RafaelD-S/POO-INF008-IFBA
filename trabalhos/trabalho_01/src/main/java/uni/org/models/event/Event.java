@@ -9,15 +9,16 @@ public abstract class Event {
 	private String type;
 	private String date;
 	private int capacity;
-	private String location;
+	private String modality;
 	private ArrayList<Participant> participants;
 	
-	public Event(String type, String name, String date, int capacity, String location) {
+	public Event(String type, String name, String date, int capacity, String modality) {
 		this.name = name;
 		this.type = type;
 		this.date = date;
 		this.capacity = capacity;
-		this.location = location;
+		this.modality = modality;
+		participants = new ArrayList<Participant>();
 	}
 
 	public void addParticipant(Participant person) {
@@ -44,8 +45,8 @@ public abstract class Event {
 		return capacity;
 	}
 
-	public String getLocation() {
-		return location;
+	public String getModality() {
+		return modality;
 	}
 
 	public ArrayList<Participant> getParticipants() {
@@ -53,7 +54,7 @@ public abstract class Event {
 	}
 
 	public void printParticipants() {
-		if (participants != null) {
+		if (participants.size() > 0) {
 			for (Participant person : participants) {
 				Console.log(person.getName());
 			}
@@ -66,7 +67,7 @@ public abstract class Event {
 		Console.log("Name: " + name);
 		Console.log("Type: " + type);
 		Console.log("Date: " + date);
-		Console.log("Location: " + location);
+		Console.log("Modality: " + modality);
 
 		if (capacity > 1)
 			Console.log("Capacity: " + capacity + " People");

@@ -1,5 +1,5 @@
 package uni.org.controlers;
 
-public class EventControl {
+public class ParticipantControl {
     
 }
