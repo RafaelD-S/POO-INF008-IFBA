@@ -9,7 +9,7 @@ public class Validator {
         sdf.setLenient(false);
         
         try {
-            sdf.parse(data);
+            sdf.parse(string);
             return true;
         } catch (ParseException e) {
             return false;

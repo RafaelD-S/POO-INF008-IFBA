@@ -1,6 +1,8 @@
 uni/org/models/participant/Participant.class
 uni/org/utils/FileUtil.class
 uni/org/models/event/Course.class
+uni/org/utils/Validator.class
+uni/org/controlers/ParticipantControl.class
 uni/org/models/participant/Teacher.class
 uni/org/models/event/Lecture.class
 uni/org/services/Certificate.class
@@ -9,6 +11,7 @@ uni/org/ui/Menu.class
 uni/org/ui/variants/MenuServices.class
 uni/org/models/event/Fair.class
 uni/org/models/event/Event.class
+uni/org/controlers/EventControl.class
 uni/org/models/event/Workshop.class
 uni/org/app/Main.class
 uni/org/models/participant/Student.class
