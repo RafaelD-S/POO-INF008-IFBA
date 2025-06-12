@@ -10,15 +10,15 @@ public class ExternalPerson extends Participant {
         super("External Person", name, cpf, email);
     }
 
-    public void addInstituition(String instituition) {
+    public ExternalPerson(String name, String cpf, String email, String instituition) {
+        super("External Person", name, cpf, email);
         this.instituition = instituition;
     }
 
     public String getInstituition() {
         if (instituition != null) return instituition;
         else {
-            Console.log("No Instituition provided");
-            return null;
+            return "No Instituition provided";
         }
     }
 

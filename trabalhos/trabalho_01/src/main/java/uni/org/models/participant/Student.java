@@ -4,14 +4,14 @@ import uni.org.utils.Console;
 import uni.org.models.participant.Participant;
 
 public class Student extends Participant {
-    private long id;
+    private String id;
 
-    public Student(String name, String cpf, String email, long id) {
+    public Student(String name, String cpf, String email, String id) {
         super("Student", name, cpf, email);
         this.id = id;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 

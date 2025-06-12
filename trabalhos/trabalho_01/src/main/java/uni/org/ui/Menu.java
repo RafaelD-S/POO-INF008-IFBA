@@ -9,7 +9,7 @@ public class Menu {
     public static void start() {
         Console.log("Welcome to the program controler of the university events", 1, 1);
         while (true) {
-            Console.log("What do you wish to do? [Type 0 to finish]");
+            Console.log("What do you wish to do? [Type 0 to finish]", 0, 1);
             switch (Console.listChoice(Choices.get("main"))) {
                 case 0: return;
                 case 1: MenuEvents.start(); break;

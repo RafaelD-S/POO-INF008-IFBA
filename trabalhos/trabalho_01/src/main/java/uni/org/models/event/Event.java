@@ -3,6 +3,7 @@ package uni.org.models.event;
 import uni.org.models.participant.Participant;
 import uni.org.utils.Console;
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Event {
 	private String name;
@@ -68,15 +69,23 @@ public abstract class Event {
 		return participants;
 	}
 
-	public void printParticipants() {
-		if (participants.size() > 0) {
-			for (Participant person : participants) {
-				Console.log(person.getName());
-			}
-		}
-		else 
-			Console.log("There's no one in this " + type + " yet.");
+	public int getParticipantsLeght() {
+		return participants.size();
 	}
+
+	
+    public List<String> getParticipantsNames() {
+        List<String> names = new ArrayList<>();
+        for (Participant participant : participants) {
+            names.add(participant.getName());
+        }
+        return names;
+    }
+
+	public Participant getParticipantByIndex(int index) {
+        if (participants.get(index) != null) return participants.get(index);
+        return null;
+    }
 
 	public void printEvent() {
 		Console.log("Name: " + name);

@@ -4,6 +4,7 @@ import uni.org.ui.enums.Choices;
 import uni.org.utils.Console;
 import uni.org.utils.Validator;
 import uni.org.controlers.EventControl;
+import uni.org.controlers.ParticipantControl;
 import uni.org.models.event.*;
 
 public class MenuEvents {
@@ -16,6 +17,7 @@ public class MenuEvents {
                 case 1: addEvent(); break;
                 case 2: deleteEvent(); break;
                 case 3: listEvents(); break;
+                case 4: addParticipant(); break;
             }
         }
     }
@@ -105,6 +107,7 @@ public class MenuEvents {
                 EventControl.getLocalInstance().add(workshop);
                 break;
         }
+        Console.log("Created " + type + " Successfully", 1, 1);
         return;
     }
 
@@ -133,6 +136,34 @@ public class MenuEvents {
         }
         else {
             Console.log("No Events available", 0, 1);
+        }
+    }
+
+    private static void addParticipant() {
+        if (!ParticipantControl.getLocalInstance().hasParticipant()) {
+            Console.log("There is no participants available", 1, 1);
+        } else if (!EventControl.getLocalInstance().hasEvent()) {
+            Console.log("There is no events available", 1, 1);
+        } else {
+            Console.log("Chose a participant to include in an event.");
+            int studentIndex;
+            while (true) {
+                studentIndex = Console.listChoice(ParticipantControl.getLocalInstance().getParticipantsNames());
+                if (ParticipantControl.getLocalInstance().getParticipantByIndex(studentIndex - 1) != null) break;
+                Console.warn("Invalid number. Try again.");
+            }
+
+            Console.log("Chose an event to the participant to enter");
+            int eventIndex;
+            while (true) {
+                eventIndex = Console.listChoice(EventControl.getLocalInstance().getEventNames());
+                if (EventControl.getLocalInstance().getEventByIndex(eventIndex - 1) != null) break;
+                Console.warn("Invalid number. Try again.");
+            }
+
+            Event event = EventControl.getLocalInstance().getEventByIndex(eventIndex - 1);
+            if (event.getCapacity() > event.getParticipantsLeght()) event.addParticipant(ParticipantControl.getLocalInstance().getParticipantByIndex(studentIndex - 1));
+            else Console.warn("This event has been completely filled.");
         }
     }
 }

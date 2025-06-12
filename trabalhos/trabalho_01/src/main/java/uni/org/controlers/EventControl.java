@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import uni.org.models.event.Event;
+import uni.org.models.participant.Participant;
 import uni.org.utils.Console;
 
 public class EventControl {
@@ -30,6 +31,15 @@ public class EventControl {
 
     public void remove(int index) {
         eventList.remove(index);
+    }
+
+    public Event getEventByIndex(int index) {
+        if (eventList.get(index) != null) return eventList.get(index);
+        return null;
+    }
+
+    public void addParticipantToEvent(int index, Participant person) {
+        eventList.get(index).addParticipant(person);
     }
 
     public List<String> getEventNames() {

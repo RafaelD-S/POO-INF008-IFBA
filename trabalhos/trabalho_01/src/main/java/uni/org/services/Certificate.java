@@ -12,5 +12,6 @@ public class Certificate {
         String message = (participant.getName() + ", cpf " + participant.getCpf() + ", Has finished the " + event.getType() + " " + event.getName() + " on the day " + sanitizedDate + ".");
 
         FileUtil.createTxt("./certificates", fileName, message);
+        Console.log("Your certificate has been generated!", 1, 1);
     }
 }
