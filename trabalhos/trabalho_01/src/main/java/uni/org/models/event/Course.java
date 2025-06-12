@@ -7,8 +7,14 @@ public class Course extends Event {
     private String subject;
     private String lecturer;
 
-    public Course(String name, String date, String location, String subject, String lecturer, int capacity) {
-        super("Lecture", name, date, capacity, location);
+    public Course(String name, String date, String modality, String subject, String lecturer, int capacity) {
+        super("Lecture", name, date, capacity, modality);
+        this.subject = subject;
+        this.lecturer = lecturer;
+    }
+
+    public Course(String name, String date, String modality, String subject, String lecturer, int capacity, String location) {
+        super("Lecture", name, date, capacity, modality, location);
         this.subject = subject;
         this.lecturer = lecturer;
     }

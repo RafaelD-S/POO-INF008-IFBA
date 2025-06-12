@@ -2,6 +2,11 @@ package uni.org.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import uni.org.controlers.EventControl;
+import uni.org.models.event.Event;
 
 public class Validator {
     public static Boolean date(String string) {
@@ -16,7 +21,11 @@ public class Validator {
         }
     }
 
-    public static Boolean name(String string) {
-        return true;
+    public static Boolean eventName(String string) {
+        List<Event> eventos = EventControl.getLocalInstance().getEvents();
+        for (Event evento : eventos) {
+            if (evento.getName() == string) return false; 
+        }
+        return true;    
     }
 }

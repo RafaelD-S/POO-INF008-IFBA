@@ -10,6 +10,7 @@ public abstract class Event {
 	private String date;
 	private int capacity;
 	private String modality;
+	private String location;
 	private ArrayList<Participant> participants;
 	
 	public Event(String type, String name, String date, int capacity, String modality) {
@@ -19,6 +20,16 @@ public abstract class Event {
 		this.capacity = capacity;
 		this.modality = modality;
 		participants = new ArrayList<Participant>();
+	}
+
+	public Event(String type, String name, String date, int capacity, String modality, String location) {
+		this.name = name;
+		this.type = type;
+		this.date = date;
+		this.capacity = capacity;
+		this.modality = modality;
+		participants = new ArrayList<Participant>();
+		this.location = location;
 	}
 
 	public void addParticipant(Participant person) {
@@ -47,6 +58,10 @@ public abstract class Event {
 
 	public String getModality() {
 		return modality;
+	}
+
+	public String getLocation() {
+		return location;
 	}
 
 	public ArrayList<Participant> getParticipants() {

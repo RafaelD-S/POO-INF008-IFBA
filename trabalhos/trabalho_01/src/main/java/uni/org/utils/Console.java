@@ -34,6 +34,21 @@ public class Console {
         System.out.print("=> ");
         return scanner.nextLine(); 
     }
+
+    public static int askInt(String question) {
+        log(question, 0, 1);
+        
+        System.out.print("=> ");
+        while (!scanner.hasNextInt()) {
+            warn("Por favor, digite um número.");
+            scanner.nextLine();
+            System.out.print("=> ");
+        }
+
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+        return choice;
+    }
     
     public static void list(List<String> messages) {
         for (int i = 0; i < messages.size(); i++) {
@@ -53,12 +68,14 @@ public class Console {
         
         int choice = scanner.nextInt();
         scanner.nextLine();
+        
         return choice;
     }
 
     public static String listChoice(List<String> messages, Boolean returnItem) {
         int choice = listChoice(messages);
-        return messages.get(choice);
+        if (choice < 1 || choice > messages.size()) return null;
+        return messages.get(choice - 1);
     }
     
     public static void warn(String message) {

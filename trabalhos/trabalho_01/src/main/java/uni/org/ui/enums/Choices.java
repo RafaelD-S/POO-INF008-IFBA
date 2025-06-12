@@ -9,7 +9,7 @@ public enum Choices {
     PARTICIPANTS(Arrays.asList("Add a new event", "Delete an existing event", "List all events")),
     EVENTS(Arrays.asList("Add a new event", "Delete an existing event", "List all events")),
     EVENTS_TYPE(Arrays.asList("Course", "Fair", "Lecture", "Workshop")),
-    EVENTS_MODALITY(Arrays.asList("Presential", "Remote"));
+    EVENTS_MODALITY(Arrays.asList("Presential", "Remote", "Hybrid"));
 
 
     private final List<String> choiceList;

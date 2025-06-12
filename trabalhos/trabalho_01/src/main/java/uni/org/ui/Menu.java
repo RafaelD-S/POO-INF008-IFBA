@@ -1,11 +1,11 @@
 package uni.org.ui;
 
+import uni.org.controlers.EventControl;
 import uni.org.ui.enums.Choices;
 import uni.org.utils.Console;
 import uni.org.ui.variants.*;
 
 public class Menu {
-
     public static void start() {
         Console.log("Welcome to the program controler of the university events", 1, 1);
         while (true) {
@@ -18,4 +18,6 @@ public class Menu {
             }
         }
     }
+
+
 }
