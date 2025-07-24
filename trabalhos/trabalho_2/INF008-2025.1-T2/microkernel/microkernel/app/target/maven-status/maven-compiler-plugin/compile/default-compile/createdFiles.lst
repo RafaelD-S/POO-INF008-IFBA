@@ -1,7 +1,13 @@
 br\edu\ifba\inf008\shell\Core.class
-br\edu\ifba\inf008\shell\AuthenticationController.class
+br\edu\ifba\inf008\shell\views\LoanView.class
 br\edu\ifba\inf008\shell\IOController.class
-br\edu\ifba\inf008\shell\PluginController.class
 br\edu\ifba\inf008\shell\PluginController$1.class
+br\edu\ifba\inf008\shell\views\BookView.class
+br\edu\ifba\inf008\shell\views\UserView.class
+br\edu\ifba\inf008\shell\AuthenticationController.class
+br\edu\ifba\inf008\shell\components\AsideMenu.class
+br\edu\ifba\inf008\shell\components\FormFactory.class
+br\edu\ifba\inf008\shell\PluginController.class
+br\edu\ifba\inf008\shell\views\ReportView.class
 br\edu\ifba\inf008\shell\UIController.class
 br\edu\ifba\inf008\App.class

@@ -2,9 +2,12 @@ package br.edu.ifba.inf008.shell;
 
 import br.edu.ifba.inf008.interfaces.ICore;
 import br.edu.ifba.inf008.interfaces.IUIController;
+import br.edu.ifba.inf008.shell.views.BookView;
+import br.edu.ifba.inf008.shell.views.LoanView;
+import br.edu.ifba.inf008.shell.views.ReportView;
+import br.edu.ifba.inf008.shell.views.UserView;
 import javafx.application.Application;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -20,8 +23,6 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -107,49 +108,15 @@ public class UIController extends Application implements IUIController {
         tabPane.getSelectionModel().select(tab);
     }
 
-    private Node createTabContent(String section) {
-        VBox aside = new VBox(10);
-        aside.setPadding(new Insets(10));
-        aside.setStyle("-fx-background-color: #f0f0f0;");
-        aside.setPrefWidth(200);
-
-        Label asideTitle = new Label("Ações");
-        asideTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 14;");
-        aside.getChildren().add(asideTitle);
-
-        VBox mainContent = new VBox();
-        mainContent.setPadding(new Insets(20));
-        mainContent.setAlignment(Pos.CENTER);
-        mainContent.getChildren().add(new Label("Selecione uma ação no menu lateral."));
-
-        switch (section) {
-            case "Usuários":
-                createActionButton(aside, mainContent, "Cadastrar Usuário", "Formulário de cadastro de usuário");
-                createActionButton(aside, mainContent, "Editar Usuário", "Formulário de edição de usuário");
-                createActionButton(aside, mainContent, "Excluir Usuário", "Opção para exclusão de usuário");
-                createActionButton(aside, mainContent, "Listar Usuários", "Lista de usuários cadastrados");
-                break;
-            case "Livros":
-                createActionButton(aside, mainContent, "Cadastrar Livro", "Formulário de cadastro de livro");
-                createActionButton(aside, mainContent, "Editar Livro", "Formulário de edição de livro");
-                createActionButton(aside, mainContent, "Excluir Livro", "Opção para exclusão de livro");
-                createActionButton(aside, mainContent, "Listar Livros", "Lista de livros disponíveis");
-                break;
-            case "Empréstimos":
-                createActionButton(aside, mainContent, "Registrar Empréstimo", "Formulário de registro de empréstimo");
-                createActionButton(aside, mainContent, "Registrar Devolução", "Formulário de registro de devolução");
-                break;
-            case "Relatórios":
-                createActionButton(aside, mainContent, "Ver Livros Emprestados", "Relatório dos livros atualmente emprestados");
-                break;
-            default:
-                aside.getChildren().add(new Label("Nenhuma ação disponível."));
-        }
-
-        HBox tabLayout = new HBox(aside, mainContent);
-        HBox.setHgrow(mainContent, Priority.ALWAYS);
-        return tabLayout;
+private Node createTabContent(String section) {
+    switch (section) {
+        case "Usuários": return new UserView();
+        case "Livros": return new BookView();
+        case "Empréstimos": return new LoanView();
+        case "Relatórios": return new ReportView();
+        default: return new VBox(new Label("Section not found."));
     }
+}
 
 private void createActionButton(VBox aside, VBox mainContent, String buttonText, String contentText) {
     Button actionButton = new Button(buttonText);

@@ -1,6 +1,12 @@
 C:\Users\vnw-a\Downloads\INF008-2025.1-T2\microkernel\microkernel\app\src\main\java\br\edu\ifba\inf008\App.java
 C:\Users\vnw-a\Downloads\INF008-2025.1-T2\microkernel\microkernel\app\src\main\java\br\edu\ifba\inf008\shell\AuthenticationController.java
+C:\Users\vnw-a\Downloads\INF008-2025.1-T2\microkernel\microkernel\app\src\main\java\br\edu\ifba\inf008\shell\components\AsideMenu.java
+C:\Users\vnw-a\Downloads\INF008-2025.1-T2\microkernel\microkernel\app\src\main\java\br\edu\ifba\inf008\shell\components\FormFactory.java
 C:\Users\vnw-a\Downloads\INF008-2025.1-T2\microkernel\microkernel\app\src\main\java\br\edu\ifba\inf008\shell\Core.java
 C:\Users\vnw-a\Downloads\INF008-2025.1-T2\microkernel\microkernel\app\src\main\java\br\edu\ifba\inf008\shell\IOController.java
 C:\Users\vnw-a\Downloads\INF008-2025.1-T2\microkernel\microkernel\app\src\main\java\br\edu\ifba\inf008\shell\PluginController.java
 C:\Users\vnw-a\Downloads\INF008-2025.1-T2\microkernel\microkernel\app\src\main\java\br\edu\ifba\inf008\shell\UIController.java
+C:\Users\vnw-a\Downloads\INF008-2025.1-T2\microkernel\microkernel\app\src\main\java\br\edu\ifba\inf008\shell\views\BookView.java
+C:\Users\vnw-a\Downloads\INF008-2025.1-T2\microkernel\microkernel\app\src\main\java\br\edu\ifba\inf008\shell\views\LoanView.java
+C:\Users\vnw-a\Downloads\INF008-2025.1-T2\microkernel\microkernel\app\src\main\java\br\edu\ifba\inf008\shell\views\ReportView.java
+C:\Users\vnw-a\Downloads\INF008-2025.1-T2\microkernel\microkernel\app\src\main\java\br\edu\ifba\inf008\shell\views\UserView.java
