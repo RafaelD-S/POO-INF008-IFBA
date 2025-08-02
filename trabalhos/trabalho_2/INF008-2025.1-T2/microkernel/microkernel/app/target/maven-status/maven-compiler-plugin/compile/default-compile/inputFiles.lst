@@ -1,4 +1,13 @@
 C:\Users\vnw-a\Downloads\INF008-2025.1-T2\microkernel\microkernel\app\src\main\java\br\edu\ifba\inf008\App.java
+C:\Users\vnw-a\Downloads\INF008-2025.1-T2\microkernel\microkernel\app\src\main\java\br\edu\ifba\inf008\dao\BookDAO.java
+C:\Users\vnw-a\Downloads\INF008-2025.1-T2\microkernel\microkernel\app\src\main\java\br\edu\ifba\inf008\dao\DatabaseConnection.java
+C:\Users\vnw-a\Downloads\INF008-2025.1-T2\microkernel\microkernel\app\src\main\java\br\edu\ifba\inf008\dao\LoanDAO.java
+C:\Users\vnw-a\Downloads\INF008-2025.1-T2\microkernel\microkernel\app\src\main\java\br\edu\ifba\inf008\dao\ReportDAO.java
+C:\Users\vnw-a\Downloads\INF008-2025.1-T2\microkernel\microkernel\app\src\main\java\br\edu\ifba\inf008\dao\UserDAO.java
+C:\Users\vnw-a\Downloads\INF008-2025.1-T2\microkernel\microkernel\app\src\main\java\br\edu\ifba\inf008\model\Book.java
+C:\Users\vnw-a\Downloads\INF008-2025.1-T2\microkernel\microkernel\app\src\main\java\br\edu\ifba\inf008\model\Loan.java
+C:\Users\vnw-a\Downloads\INF008-2025.1-T2\microkernel\microkernel\app\src\main\java\br\edu\ifba\inf008\model\LoanReport.java
+C:\Users\vnw-a\Downloads\INF008-2025.1-T2\microkernel\microkernel\app\src\main\java\br\edu\ifba\inf008\model\User.java
 C:\Users\vnw-a\Downloads\INF008-2025.1-T2\microkernel\microkernel\app\src\main\java\br\edu\ifba\inf008\shell\AuthenticationController.java
 C:\Users\vnw-a\Downloads\INF008-2025.1-T2\microkernel\microkernel\app\src\main\java\br\edu\ifba\inf008\shell\components\AsideMenu.java
 C:\Users\vnw-a\Downloads\INF008-2025.1-T2\microkernel\microkernel\app\src\main\java\br\edu\ifba\inf008\shell\components\FormFactory.java

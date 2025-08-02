@@ -27,10 +27,14 @@ public class UserView extends HBox {
         AsideMenu aside = new AsideMenu(actions, this::loadAction);
         this.getChildren().addAll(aside, mainContent);
         HBox.setHgrow(mainContent, Priority.ALWAYS);
+
+        this.setFillHeight(true);
+        this.mainContent.setFillWidth(true);
     }
 
     private void loadAction(String action) {
         mainContent.getChildren().clear();
         mainContent.getChildren().add(FormFactory.getForm(action));
     }
+
 }
