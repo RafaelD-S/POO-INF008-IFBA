@@ -1,8 +1,10 @@
 package br.edu.ifba.inf008.shell;
 
-import br.edu.ifba.inf008.interfaces.*;
-import javafx.application.Application;
-import javafx.application.Platform;
+import br.edu.ifba.inf008.interfaces.IAuthenticationController;
+import br.edu.ifba.inf008.interfaces.ICore;
+import br.edu.ifba.inf008.interfaces.IIOController;
+import br.edu.ifba.inf008.interfaces.IPluginController;
+import br.edu.ifba.inf008.interfaces.IUIController;
 
 public class Core extends ICore
 {
