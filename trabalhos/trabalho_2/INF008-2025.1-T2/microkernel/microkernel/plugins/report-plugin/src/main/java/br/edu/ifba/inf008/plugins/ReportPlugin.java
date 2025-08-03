@@ -9,7 +9,6 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 
 public class ReportPlugin implements IPlugin {
-    private static final String PLUGIN_NAME = "Relatórios";
     
     @Override
     public boolean init() {
