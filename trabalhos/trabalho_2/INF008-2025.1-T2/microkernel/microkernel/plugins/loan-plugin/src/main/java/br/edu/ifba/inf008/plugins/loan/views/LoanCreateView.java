@@ -23,15 +23,15 @@ public class LoanCreateView extends BorderPane {
     private DatePicker loanDatePicker;
     private Button createButton;
     private Button cancelButton;
-    private LoanDAO loanDAO;
+    private final LoanDAO loanDAO;
     private ProgressIndicator progressIndicator;
     private Label statusLabel;
     private Runnable onLoanCreated;
     
     // Helper classes for ComboBox items
     public static class UserItem {
-        private int id;
-        private String name;
+        private final int id;
+        private final String name;
         
         public UserItem(int id, String name) {
             this.id = id;
@@ -46,10 +46,10 @@ public class LoanCreateView extends BorderPane {
     }
     
     public static class BookItem {
-        private int id;
-        private String title;
-        private String author;
-        private boolean available;
+        private final int id;
+        private final String title;
+        private final String author;
+        private final boolean available;
         
         public BookItem(int id, String title, String author, boolean available) {
             this.id = id;
@@ -303,9 +303,15 @@ public class LoanCreateView extends BorderPane {
         showLoading(true, "Criando empréstimo...");
         
         Loan newLoan = new Loan();
-        newLoan.setUserId(selectedUser.getId());
-        newLoan.setBookId(selectedBook.getId());
-        newLoan.setLoanDate(selectedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        if (selectedUser != null) {
+            newLoan.setUserId(selectedUser.getId());
+        }
+        if (selectedBook != null) {
+            newLoan.setBookId(selectedBook.getId());
+        }
+        if (selectedDate != null) {
+            newLoan.setLoanDate(selectedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        }
         
         Task<Boolean> task = new Task<Boolean>() {
             @Override
@@ -392,7 +398,6 @@ public class LoanCreateView extends BorderPane {
             message = exception.getClass().getSimpleName();
         }
         showError(title, message);
-        exception.printStackTrace();
     }
     
     private void showInfo(String title, String message) {

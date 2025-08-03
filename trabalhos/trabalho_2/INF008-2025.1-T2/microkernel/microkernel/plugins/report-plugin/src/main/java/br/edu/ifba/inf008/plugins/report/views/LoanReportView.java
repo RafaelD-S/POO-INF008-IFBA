@@ -236,7 +236,6 @@ public class LoanReportView extends VBox {
             } catch (SQLException e) {
                 Platform.runLater(() -> {
                     showError("Erro ao carregar dados", "Erro na consulta ao banco: " + e.getMessage());
-                    e.printStackTrace();
                 });
             }
         }).start();
@@ -294,7 +293,6 @@ public class LoanReportView extends VBox {
             } catch (SQLException e) {
                 Platform.runLater(() -> {
                     showError("Erro ao aplicar filtros", "Erro na consulta ao banco: " + e.getMessage());
-                    e.printStackTrace();
                 });
             }
         }).start();

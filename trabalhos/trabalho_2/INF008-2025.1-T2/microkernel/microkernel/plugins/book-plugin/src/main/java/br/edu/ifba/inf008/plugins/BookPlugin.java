@@ -9,7 +9,6 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 
 public class BookPlugin implements IPlugin {
-    private static final String PLUGIN_NAME = "Gerenciamento de Livros";
     
     @Override
     public boolean init() {
@@ -46,7 +45,6 @@ public class BookPlugin implements IPlugin {
             
         } catch (Exception e) {
             System.err.println("BookPlugin: Erro durante inicialização - " + e.getMessage());
-            e.printStackTrace();
             return false;
         }
     }

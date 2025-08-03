@@ -1,13 +1,21 @@
 package br.edu.ifba.inf008.plugins.book.dao;
 
-import br.edu.ifba.inf008.plugins.book.model.Book;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import br.edu.ifba.inf008.plugins.book.model.Book;
 
 public class BookDAO {
+    
+    private static final Logger logger = Logger.getLogger(BookDAO.class.getName());
     
     public List<Book> findAll() {
         List<Book> books = new ArrayList<>();
@@ -23,7 +31,7 @@ public class BookDAO {
 
         } catch (SQLException e) {
             System.err.println("Erro ao buscar todos os livros: " + e.getMessage());
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Erro ao buscar todos os livros", e);
         }
 
         return books;
@@ -43,7 +51,7 @@ public class BookDAO {
 
         } catch (SQLException e) {
             System.err.println("Erro ao buscar livros disponíveis: " + e.getMessage());
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Erro ao buscar livros disponíveis", e);
         }
         
         return books;
@@ -64,7 +72,7 @@ public class BookDAO {
 
         } catch (SQLException e) {
             System.err.println("Erro ao buscar livro por ID: " + e.getMessage());
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Erro ao buscar livro por ID", e);
         }
 
         return Optional.empty();
@@ -94,7 +102,7 @@ public class BookDAO {
 
         } catch (SQLException e) {
             System.err.println("Erro ao inserir livro: " + e.getMessage());
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Erro ao inserir livro", e);
         }
 
         return false;
@@ -117,7 +125,7 @@ public class BookDAO {
 
         } catch (SQLException e) {
             System.err.println("Erro ao atualizar livro: " + e.getMessage());
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Erro ao atualizar livro", e);
         }
 
         return false;
@@ -134,7 +142,7 @@ public class BookDAO {
 
         } catch (SQLException e) {
             System.err.println("Erro ao deletar livro: " + e.getMessage());
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Erro ao deletar livro", e);
         }
 
         return false;
@@ -151,7 +159,7 @@ public class BookDAO {
 
         } catch (SQLException e) {
             System.err.println("Erro ao diminuir cópias disponíveis: " + e.getMessage());
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Erro ao diminuir cópias disponíveis", e);
         }
 
         return false;
@@ -168,7 +176,7 @@ public class BookDAO {
 
         } catch (SQLException e) {
             System.err.println("Erro ao aumentar cópias disponíveis: " + e.getMessage());
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Erro ao aumentar cópias disponíveis", e);
         }
 
         return false;
@@ -190,7 +198,7 @@ public class BookDAO {
 
         } catch (SQLException e) {
             System.err.println("Erro ao buscar livros por título: " + e.getMessage());
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Erro ao buscar livros por título", e);
         }
 
         return books;
@@ -213,7 +221,7 @@ public class BookDAO {
 
         } catch (SQLException e) {
             System.err.println("Erro ao verificar ISBN existente: " + e.getMessage());
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Erro ao verificar ISBN existente", e);
         }
 
         return false;

@@ -13,7 +13,6 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import br.edu.ifba.inf008.plugins.loan.dao.LoanDAO;
 import br.edu.ifba.inf008.plugins.loan.model.Loan;
-import br.edu.ifba.inf008.plugins.loan.views.LoanCreateView;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -22,7 +21,7 @@ import java.util.Optional;
 
 public class LoanListView extends BorderPane {
     private TableView<Loan> loanTable;
-    private LoanDAO loanDAO;
+    private final LoanDAO loanDAO;
     private ProgressIndicator progressIndicator;
     private Label statusLabel;
     private TextField searchField;
@@ -341,7 +340,6 @@ public class LoanListView extends BorderPane {
             message = exception.getClass().getSimpleName();
         }
         showError(title, message);
-        exception.printStackTrace();
     }
     
     private void showInfo(String title, String message) {

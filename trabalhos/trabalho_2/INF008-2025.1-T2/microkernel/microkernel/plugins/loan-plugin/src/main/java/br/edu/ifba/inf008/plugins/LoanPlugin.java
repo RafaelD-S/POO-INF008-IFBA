@@ -9,7 +9,6 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 
 public class LoanPlugin implements IPlugin {
-    private static final String PLUGIN_NAME = "Gerenciamento de Empréstimos";
     
     @Override
     public boolean init() {
@@ -46,7 +45,7 @@ public class LoanPlugin implements IPlugin {
             
         } catch (Exception e) {
             System.err.println("LoanPlugin: Erro durante inicialização - " + e.getMessage());
-            e.printStackTrace();
+            java.util.logging.Logger.getLogger(LoanPlugin.class.getName()).log(java.util.logging.Level.SEVERE, "Erro durante inicialização", e);
             return false;
         }
     }

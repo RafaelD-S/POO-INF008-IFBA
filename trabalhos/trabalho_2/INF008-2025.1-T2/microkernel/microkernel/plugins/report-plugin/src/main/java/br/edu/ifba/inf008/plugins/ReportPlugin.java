@@ -45,7 +45,6 @@ public class ReportPlugin implements IPlugin {
             
         } catch (Exception e) {
             System.err.println("ReportPlugin: Erro durante inicialização - " + e.getMessage());
-            e.printStackTrace();
             return false;
         }
     }

@@ -202,7 +202,9 @@ public class BookFormDialog extends Dialog<Book> {
                 errors.append("- ISBN é obrigatório\n");
             }
             if (!isValidYear(yearField.getText())) {
-                errors.append("- Ano deve ser um número válido entre 1 e " + java.time.Year.now().getValue() + "\n");
+                errors.append("- Ano deve ser um número válido entre 1 e ")
+                      .append(java.time.Year.now().getValue())
+                      .append("\n");
             }
             if (!isValidCopies(copiesField.getText())) {
                 errors.append("- Número de cópias deve ser um número não negativo\n");
@@ -224,7 +226,7 @@ public class BookFormDialog extends Dialog<Book> {
             book.setPublishedYear(Integer.parseInt(yearField.getText()));
             book.setCopiesAvailable(Integer.parseInt(copiesField.getText()));
             return book;
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erro de Validação");
             alert.setHeaderText("Dados inválidos");

@@ -23,8 +23,8 @@ import javafx.scene.text.FontWeight;
 
 public class BookListView extends BorderPane {
     private TableView<Book> bookTable;
-    private ObservableList<Book> bookList;
-    private BookDAO bookDAO;
+    private final ObservableList<Book> bookList;
+    private final BookDAO bookDAO;
     private TextField searchField;
     private Button addButton;
     private Button editButton;

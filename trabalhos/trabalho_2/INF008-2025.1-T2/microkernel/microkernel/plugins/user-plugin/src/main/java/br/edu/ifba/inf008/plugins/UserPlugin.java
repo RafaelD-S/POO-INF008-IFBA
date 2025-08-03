@@ -9,7 +9,6 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 
 public class UserPlugin implements IPlugin {
-    private static final String PLUGIN_NAME = "Gerenciamento de Usuários";
     
     @Override
     public boolean init() {
@@ -46,7 +45,6 @@ public class UserPlugin implements IPlugin {
             
         } catch (Exception e) {
             System.err.println("UserPlugin: Erro durante inicialização - " + e.getMessage());
-            e.printStackTrace();
             return false;
         }
     }

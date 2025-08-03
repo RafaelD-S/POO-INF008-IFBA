@@ -1,16 +1,19 @@
 package br.edu.ifba.inf008.shell;
 
-import br.edu.ifba.inf008.App;
-import br.edu.ifba.inf008.interfaces.IPluginController;
-import br.edu.ifba.inf008.interfaces.IPlugin;
-import br.edu.ifba.inf008.interfaces.ICore;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
+import br.edu.ifba.inf008.App;
+import br.edu.ifba.inf008.interfaces.IPlugin;
+import br.edu.ifba.inf008.interfaces.IPluginController;
+
 public class PluginController implements IPluginController
 {
+    @Override
     public boolean init() {
         try {
             // Try different possible plugin directory locations
@@ -35,12 +38,7 @@ public class PluginController implements IPluginController
             System.out.println("Info: Loading plugins from: " + currentDir.getAbsolutePath());
 
             // Define a FilenameFilter to include only .jar files
-            FilenameFilter jarFilter = new FilenameFilter() {
-                @Override
-                public boolean accept(File dir, String name) {
-                    return name.toLowerCase().endsWith(".jar");
-                }
-            };
+            FilenameFilter jarFilter = (dir, name) -> name.toLowerCase().endsWith(".jar");
 
             String[] plugins = currentDir.list(jarFilter);
             
@@ -74,9 +72,9 @@ public class PluginController implements IPluginController
 
             System.out.println("Info: Successfully loaded " + plugins.length + " plugin(s).");
             return true;
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InstantiationException | NoSuchMethodException | InvocationTargetException | MalformedURLException e) {
             System.out.println("Error: " + e.getClass().getName() + " - " + e.getMessage());
-            e.printStackTrace();
+            System.out.println("Stack trace: " + e.toString());
 
             return false;
         }
