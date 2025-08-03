@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class AsideMenu extends VBox {
@@ -25,5 +26,9 @@ public class AsideMenu extends VBox {
             btn.setOnAction(e -> onActionClick.accept(action));
             getChildren().add(btn);
         }
+
+        VBox spacer = new VBox();
+        VBox.setVgrow(spacer, Priority.ALWAYS);
+        getChildren().add(spacer);
     }
 }

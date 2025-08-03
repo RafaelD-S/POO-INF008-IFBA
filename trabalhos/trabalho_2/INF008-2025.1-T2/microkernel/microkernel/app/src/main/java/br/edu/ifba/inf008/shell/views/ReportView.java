@@ -14,7 +14,9 @@ public class ReportView extends HBox {
 
     public ReportView() {
         String[] actions = {
-            "View Borrowed Books"
+            "View Borrowed Books",
+            "Returned Books",
+            "Borrowed But Not Returned"
         };
 
         this.mainContent = new VBox();
@@ -23,7 +25,6 @@ public class ReportView extends HBox {
 
         AsideMenu aside = new AsideMenu(actions, this::loadAction);
         this.getChildren().addAll(aside, mainContent);
-        HBox.setHgrow(mainContent, Priority.ALWAYS);
     }
 
     private void loadAction(String action) {

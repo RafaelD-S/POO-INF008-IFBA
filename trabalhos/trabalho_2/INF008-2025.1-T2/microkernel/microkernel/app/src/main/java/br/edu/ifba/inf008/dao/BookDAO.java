@@ -1,30 +1,41 @@
 package br.edu.ifba.inf008.dao;
 
-import br.edu.ifba.inf008.model.Book;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookDAO {
-    public List<Book> findAll() {
-        List<Book> books = new ArrayList<>();
-        try (Connection conn = DatabaseConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM books")) {
+import br.edu.ifba.inf008.model.Book;
 
-            while (rs.next()) {
-                books.add(new Book(
-                        rs.getInt("book_id"),
-                        rs.getString("title"),
-                        rs.getString("author")
-                ));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+public class BookDAO {
+public List<Book> findAll() {
+    List<Book> books = new ArrayList<>();
+    String sql = "SELECT * FROM books";
+
+    try (Connection conn = DatabaseConnection.getConnection();
+         Statement stmt = conn.createStatement();
+         ResultSet rs = stmt.executeQuery(sql)) {
+
+        while (rs.next()) {
+            books.add(new Book(
+                    rs.getInt("book_id"),
+                    rs.getString("title"),
+                    rs.getString("author"),
+                    rs.getString("isbn"),
+                    rs.getInt("published_year"),
+                    rs.getInt("copies_available")
+            ));
         }
-        return books;
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+
+    return books;
+}
+
 
     public List<Book> findAvailable() {
     List<Book> books = new ArrayList<>();
@@ -38,7 +49,10 @@ public class BookDAO {
             books.add(new Book(
                     rs.getInt("book_id"),
                     rs.getString("title"),
-                    rs.getString("author")
+                    rs.getString("author"),
+                    rs.getString("isbn"),
+                    rs.getInt("published_year"),
+                    rs.getInt("copies_available")
             ));
         }
     } catch (SQLException e) {
@@ -101,4 +115,36 @@ public boolean delete(int bookId) {
         return false;
     }
 }
+
+public boolean decreaseAvailableCopies(int bookId) {
+    String sql = "UPDATE books SET copies_available = copies_available - 1 WHERE book_id = ? AND copies_available > 0";
+
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setInt(1, bookId);
+        return stmt.executeUpdate() > 0;
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
+public boolean increaseAvailableCopies(int bookId) {
+    String sql = "UPDATE books SET copies_available = copies_available + 1 WHERE book_id = ?";
+
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setInt(1, bookId);
+        return stmt.executeUpdate() > 0;
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
+
 }

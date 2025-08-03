@@ -24,7 +24,6 @@ public class LoanView extends HBox {
 
         AsideMenu aside = new AsideMenu(actions, this::loadAction);
         this.getChildren().addAll(aside, mainContent);
-        HBox.setHgrow(mainContent, Priority.ALWAYS);
     }
 
     private void loadAction(String action) {

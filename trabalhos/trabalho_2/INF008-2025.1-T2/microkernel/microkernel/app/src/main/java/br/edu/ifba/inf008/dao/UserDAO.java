@@ -7,24 +7,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO {
-    public List<User> findAll() {
-        List<User> users = new ArrayList<>();
-        try (Connection conn = DatabaseConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM users")) {
+public List<User> findAll() {
+    List<User> users = new ArrayList<>();
+    String sql = "SELECT * FROM users";
 
-            while (rs.next()) {
-                users.add(new User(
-                        rs.getInt("user_id"),
-                        rs.getString("name"),
-                        rs.getString("email")
-                ));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+    try (Connection conn = DatabaseConnection.getConnection();
+         Statement stmt = conn.createStatement();
+         ResultSet rs = stmt.executeQuery(sql)) {
+
+        while (rs.next()) {
+            users.add(new User(
+                rs.getInt("user_id"),
+                rs.getString("name"),
+                rs.getString("email"),
+                rs.getString("registered_at")
+            ));
         }
-        return users;
+
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+
+    return users;
+}
+
 
     public boolean insert(String name, String email) {
     String sql = "INSERT INTO users (name, email) VALUES (?, ?)";

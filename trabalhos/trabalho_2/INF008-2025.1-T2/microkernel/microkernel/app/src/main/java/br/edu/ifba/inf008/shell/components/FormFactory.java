@@ -1,5 +1,7 @@
 package br.edu.ifba.inf008.shell.components;
 
+import java.util.List;
+
 import br.edu.ifba.inf008.dao.BookDAO;
 import br.edu.ifba.inf008.dao.LoanDAO;
 import br.edu.ifba.inf008.dao.ReportDAO;
@@ -8,12 +10,13 @@ import br.edu.ifba.inf008.model.Book;
 import br.edu.ifba.inf008.model.Loan;
 import br.edu.ifba.inf008.model.LoanReport;
 import br.edu.ifba.inf008.model.User;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
@@ -22,6 +25,29 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 public class FormFactory {
+
+    private Node generateLoanReportTable(List<LoanReport> data) {
+        TableView<LoanReport> reportTable = new TableView<>();
+
+        TableColumn<LoanReport, String> bookCol = new TableColumn<>("Book");
+        bookCol.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getBookTitle()));
+
+        TableColumn<LoanReport, String> authorCol = new TableColumn<>("Author");
+        authorCol.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getBookAuthor()));
+
+        TableColumn<LoanReport, String> userCol = new TableColumn<>("User");
+        userCol.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getUserName()));
+
+        TableColumn<LoanReport, String> loanDateCol = new TableColumn<>("Loan Date");
+        loanDateCol.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getLoanDate().toString()));
+
+        reportTable.getColumns().addAll(bookCol, authorCol, userCol, loanDateCol);
+        reportTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        reportTable.getItems().setAll(data);
+
+        return reportTable;
+    }
+
 
     public static Node getForm(String action) {
         VBox contentBox = new VBox(10);
@@ -84,8 +110,8 @@ public class FormFactory {
                         newNameField.setDisable(false);
                         newEmailField.setDisable(false);
                         updateBtn.setDisable(false);
-                        newNameField.setText(selected.toString().split(" \\(")[0]); // crude extract
-                        newEmailField.setText(selected.toString().split("\\(")[1].replace(")", ""));
+                        newNameField.setText(selected.getName());
+                        newEmailField.setText(selected.getEmail());
                     }
                 });
 
@@ -124,6 +150,7 @@ public class FormFactory {
                 );
                 break;
 
+
             case "Delete User":
                 UserDAO userDAOdel = new UserDAO();
                 ComboBox<User> userDelCombo = new ComboBox<>();
@@ -147,10 +174,26 @@ public class FormFactory {
 
             case "List Users":
                 UserDAO userDAOList = new UserDAO();
-                ListView<User> userList = new ListView<>();
-                userList.getItems().addAll(userDAOList.findAll());
-                contentBox.getChildren().addAll(new Label("Registered users:"), userList);
+                TableView<User> userTable = new TableView<>();
+
+                TableColumn<User, String> nameCol = new TableColumn<>("Name");
+                nameCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
+
+                TableColumn<User, String> emailCol = new TableColumn<>("Email");
+                emailCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getEmail()));
+
+                userTable.getColumns().addAll(nameCol, emailCol);
+                userTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+                userTable.getItems().setAll(userDAOList.findAll());
+
+                Button refreshUsers = new Button("🔄 Atualizar");
+                refreshUsers.setOnAction(e -> {
+                    userTable.getItems().setAll(userDAOList.findAll());
+                });
+
+                contentBox.getChildren().addAll(new Label("User List:"), refreshUsers, userTable);
                 break;
+
 
             // === BOOKS ===
             case "Add Book":
@@ -195,76 +238,86 @@ public class FormFactory {
                 break;
 
             case "Edit Book":
-                BookDAO bookDAOedit = new BookDAO();
-                ComboBox<Book> bookCombo2 = new ComboBox<>();
-                bookCombo2.getItems().addAll(bookDAOedit.findAll());
+                BookDAO bookDAO = new BookDAO();
+                ComboBox<Book> bookCombo = new ComboBox<>();
+                bookCombo.getItems().addAll(bookDAO.findAll());
 
-                TextField titleEdit2 = new TextField();
-                TextField authorEdit2 = new TextField();
-                TextField isbnEdit2 = new TextField();
-                TextField yearEdit2 = new TextField();
-                TextField copiesEdit2 = new TextField();
-                Button updateBookBtn2 = new Button("Update");
+                TextField titleField2 = new TextField();
+                TextField authorField2 = new TextField();
+                TextField isbnField2 = new TextField();
+                TextField yearField2 = new TextField();
+                TextField copiesField2 = new TextField();
+                Button updateBtn2 = new Button("Update");
 
-                titleEdit2.setDisable(true); authorEdit2.setDisable(true);
-                isbnEdit2.setDisable(true); yearEdit2.setDisable(true);
-                copiesEdit2.setDisable(true); updateBookBtn2.setDisable(true);
+                titleField2.setDisable(true);
+                authorField2.setDisable(true);
+                isbnField2.setDisable(true);
+                yearField2.setDisable(true);
+                copiesField2.setDisable(true);
+                updateBtn2.setDisable(true);
 
-                bookCombo2.setOnAction(e -> {
-                    Book selected = bookCombo2.getValue();
+                bookCombo.setOnAction(e -> {
+                    Book selected = bookCombo.getValue();
                     if (selected != null) {
-                        // (Simular carregamento real com campos fictícios se Book.java ainda não tem todos os campos)
-                        titleEdit2.setText(selected.toString().split(" - ")[0]);
-                        authorEdit2.setText(selected.toString().split(" - ")[1]);
-                        isbnEdit2.setText("1234567890");  // Substitua por selected.getIsbn() quando disponível
-                        yearEdit2.setText("2000");        // Substitua por selected.getPublishedYear()
-                        copiesEdit2.setText("5");         // Substitua por selected.getCopiesAvailable()
+                        titleField2.setText(selected.getTitle());
+                        authorField2.setText(selected.getAuthor());
+                        isbnField2.setText(selected.getIsbn());
+                        yearField2.setText(String.valueOf(selected.getPublishedYear()));
+                        copiesField2.setText(String.valueOf(selected.getCopiesAvailable()));
 
-                        titleEdit2.setDisable(false); authorEdit2.setDisable(false);
-                        isbnEdit2.setDisable(false); yearEdit2.setDisable(false);
-                        copiesEdit2.setDisable(false); updateBookBtn2.setDisable(false);
+                        titleField2.setDisable(false);
+                        authorField2.setDisable(false);
+                        isbnField2.setDisable(false);
+                        yearField2.setDisable(false);
+                        copiesField2.setDisable(false);
+                        updateBtn2.setDisable(false);
                     }
                 });
 
-                updateBookBtn2.setOnAction(ev -> {
-                    Book selected = bookCombo2.getValue();
+                updateBtn2.setOnAction(ev -> {
+                    Book selected = bookCombo.getValue();
                     if (selected != null) {
                         try {
-                            String title2 = titleEdit2.getText();
-                            String author = authorEdit2.getText();
-                            String isbn = isbnEdit2.getText();
-                            int year = Integer.parseInt(yearEdit2.getText());
-                            int copies = Integer.parseInt(copiesEdit2.getText());
+                            String title2 = titleField2.getText().trim();
+                            String author = authorField2.getText().trim();
+                            String isbn = isbnField2.getText().trim();
+                            int year = Integer.parseInt(yearField2.getText().trim());
+                            int copies = Integer.parseInt(copiesField2.getText().trim());
 
-                            boolean success = bookDAOedit.update(selected.getId(), title2, author, isbn, year, copies);
+                            boolean success = bookDAO.update(selected.getId(), title2, author, isbn, year, copies);
                             if (success) {
                                 new Alert(Alert.AlertType.INFORMATION, "Book updated successfully!").showAndWait();
-                                bookCombo2.getItems().setAll(bookDAOedit.findAll());
-                                bookCombo2.getSelectionModel().clearSelection();
-                                titleEdit2.clear(); authorEdit2.clear(); isbnEdit2.clear();
-                                yearEdit2.clear(); copiesEdit2.clear();
-                                titleEdit2.setDisable(true); authorEdit2.setDisable(true);
-                                isbnEdit2.setDisable(true); yearEdit2.setDisable(true);
-                                copiesEdit2.setDisable(true); updateBookBtn2.setDisable(true);
+                                bookCombo.getItems().setAll(bookDAO.findAll());
+                                bookCombo.getSelectionModel().clearSelection();
+                                titleField2.clear(); authorField2.clear(); isbnField2.clear();
+                                yearField2.clear(); copiesField2.clear();
+
+                                titleField2.setDisable(true);
+                                authorField2.setDisable(true);
+                                isbnField2.setDisable(true);
+                                yearField2.setDisable(true);
+                                copiesField2.setDisable(true);
+                                updateBtn2.setDisable(true);
                             } else {
                                 new Alert(Alert.AlertType.ERROR, "Failed to update book.").show();
                             }
-                        } catch (NumberFormatException e) {
-                            new Alert(Alert.AlertType.WARNING, "Invalid numeric values").show();
+                        } catch (NumberFormatException ex) {
+                            new Alert(Alert.AlertType.WARNING, "Invalid number format.").show();
                         }
                     }
                 });
 
                 contentBox.getChildren().addAll(
-                    new Label("Select Book:"), bookCombo2,
-                    new Label("New Title:"), titleEdit2,
-                    new Label("New Author:"), authorEdit2,
-                    new Label("New ISBN:"), isbnEdit2,
-                    new Label("New Year:"), yearEdit2,
-                    new Label("New Copies:"), copiesEdit2,
-                    updateBookBtn2
+                    new Label("Select Book:"), bookCombo,
+                    new Label("Title:"), titleField2,
+                    new Label("Author:"), authorField2,
+                    new Label("ISBN:"), isbnField2,
+                    new Label("Published Year:"), yearField2,
+                    new Label("Copies Available:"), copiesField2,
+                    updateBtn2
                 );
                 break;
+
 
             case "Delete Book":
                 BookDAO bookDAOdel = new BookDAO();
@@ -289,98 +342,173 @@ public class FormFactory {
                 break;
             case "List Books":
                 BookDAO bookDAOList = new BookDAO();
-                ListView<Book> bookList = new ListView<>();
-                bookList.getItems().addAll(bookDAOList.findAll());
-                contentBox.getChildren().addAll(new Label("Available books:"), bookList);
+                TableView<Book> bookTable = new TableView<>();
+
+                TableColumn<Book, String> tCol = new TableColumn<>("Title");
+                tCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getTitle()));
+
+                TableColumn<Book, String> aCol = new TableColumn<>("Author");
+                aCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAuthor()));
+
+                TableColumn<Book, String> iCol = new TableColumn<>("ISBN");
+                iCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getIsbn()));
+
+                TableColumn<Book, Integer> yCol = new TableColumn<>("Year");
+                yCol.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getPublishedYear()).asObject());
+
+                TableColumn<Book, Integer> cCol = new TableColumn<>("Copies");
+                cCol.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getCopiesAvailable()).asObject());
+
+                bookTable.getColumns().addAll(tCol, aCol, iCol, yCol, cCol);
+                bookTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+                bookTable.getItems().setAll(bookDAOList.findAll());
+
+                Button refreshBooks = new Button("🔄 Atualizar");
+                refreshBooks.setOnAction(e -> {
+                    bookTable.getItems().setAll(bookDAOList.findAll());
+                });
+
+                contentBox.getChildren().addAll(new Label("Books:"), refreshBooks, bookTable);
                 break;
+
+
 
             // === LOANS ===
             case "Register Loan":
-                UserDAO udao = new UserDAO();
-                BookDAO bdao = new BookDAO();
-                LoanDAO ldao = new LoanDAO();
+                UserDAO udaoLoan = new UserDAO();
+                BookDAO bdaoLoan = new BookDAO();
+                LoanDAO ldaoLoan = new LoanDAO();
 
-                ComboBox<User> userCB = new ComboBox<>();
-                userCB.getItems().addAll(udao.findAll());
+                ComboBox<User> userLoanCB = new ComboBox<>();
+                userLoanCB.getItems().addAll(udaoLoan.findAll());
 
-                ComboBox<Book> bookCB = new ComboBox<>();
-                bookCB.getItems().addAll(bdao.findAvailable());
+                ComboBox<Book> bookLoanCB = new ComboBox<>();
+                bookLoanCB.getItems().addAll(bdaoLoan.findAvailable());
 
-                Button registerBtn = new Button("Register");
+                Button registerLoanBtn = new Button("Register");
 
-                registerBtn.setOnAction(ev -> {
-                    User u = userCB.getValue();
-                    Book b = bookCB.getValue();
-                    if (u != null && b != null) {
-                        boolean success = ldao.registerLoan(u.getId(), b.getId());
-                        if (success) {
-                            new Alert(Alert.AlertType.INFORMATION, "Loan registered!").showAndWait();
-                            bookCB.getItems().setAll(bdao.findAvailable());
-                            userCB.getSelectionModel().clearSelection();
-                            bookCB.getSelectionModel().clearSelection();
+                registerLoanBtn.setOnAction(ev -> {
+                    User user = userLoanCB.getValue();
+                    Book book = bookLoanCB.getValue();
+
+                    if (user != null && book != null) {
+                        boolean loaned = ldaoLoan.registerLoan(user.getId(), book.getId());
+                        boolean updated = bdaoLoan.decreaseAvailableCopies(book.getId());
+
+                        if (loaned && updated) {
+                            new Alert(Alert.AlertType.INFORMATION, "Loan registered and inventory updated!").showAndWait();
+                            bookLoanCB.getItems().setAll(bdaoLoan.findAvailable());
+                            userLoanCB.getSelectionModel().clearSelection();
+                            bookLoanCB.getSelectionModel().clearSelection();
                         } else {
-                            new Alert(Alert.AlertType.ERROR, "Error registering loan").show();
+                            new Alert(Alert.AlertType.ERROR, "Error registering loan or updating inventory.").show();
                         }
                     }
                 });
 
                 contentBox.getChildren().addAll(
-                    new Label("User:"), userCB,
-                    new Label("Book:"), bookCB,
-                    registerBtn
+                    new Label("User:"), userLoanCB,
+                    new Label("Book:"), bookLoanCB,
+                    registerLoanBtn
                 );
                 break;
 
+
             case "Register Return":
-                LoanDAO ldao2 = new LoanDAO();
-                ComboBox<Loan> loanCB = new ComboBox<>();
-                loanCB.getItems().addAll(ldao2.findActiveLoans());
+                LoanDAO loanDAO = new LoanDAO();
+
+                ComboBox<Loan> loanCombo = new ComboBox<>();
+                loanCombo.getItems().addAll(loanDAO.findActiveLoans());
 
                 Button returnBtn = new Button("Register Return");
 
-                returnBtn.setOnAction(ev -> {
-                    Loan loan = loanCB.getValue();
+                returnBtn.setOnAction(e -> {
+                    Loan loan = loanCombo.getValue();
+
                     if (loan != null) {
-                        boolean success = ldao2.registerReturn(loan.getId());
+                        boolean success = loanDAO.registerReturn(loan.getId());
+
                         if (success) {
-                            new Alert(Alert.AlertType.INFORMATION, "Return registered!").showAndWait();
-                            loanCB.getItems().setAll(ldao2.findActiveLoans());
+                            new Alert(Alert.AlertType.INFORMATION, "Return registered and book stock updated!").showAndWait();
+                            loanCombo.getItems().setAll(loanDAO.findActiveLoans());
                         } else {
-                            new Alert(Alert.AlertType.ERROR, "Failed to register return").show();
+                            new Alert(Alert.AlertType.ERROR, "Failed to register return.").show();
                         }
                     }
                 });
 
-                contentBox.getChildren().addAll(
-                    new Label("Select active loan:"), loanCB,
-                    returnBtn
-                );
-
+                contentBox.getChildren().addAll(new Label("Select Loan to Return:"), loanCombo, returnBtn);
                 break;
+
 
             // === REPORTS ===
             case "View Borrowed Books":
-                TableView<LoanReport> table = new TableView<>();
+                LoanDAO loanDAO2 = new LoanDAO();
+                TableView<LoanReport> reportTable = new TableView<>();
 
-                TableColumn<LoanReport, String> titleCol = new TableColumn<>("Title");
-                titleCol.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getBookTitle()));
+                TableColumn<LoanReport, String> bookCol = new TableColumn<>("Book");
+                bookCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getBookTitle()));
 
                 TableColumn<LoanReport, String> authorCol = new TableColumn<>("Author");
-                authorCol.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getBookAuthor()));
+                authorCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getBookAuthor()));
 
                 TableColumn<LoanReport, String> userCol = new TableColumn<>("User");
-                userCol.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getUserName()));
+                userCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getUserName()));
 
-                TableColumn<LoanReport, String> dateCol = new TableColumn<>("Loan Date");
-                dateCol.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getLoanDate().toString()));
+                TableColumn<LoanReport, String> loanDateCol = new TableColumn<>("Loan Date");
+                loanDateCol.setCellValueFactory(data ->
+                    new SimpleStringProperty(data.getValue().getLoanDate().toString())
+                );
 
-                table.getColumns().addAll(titleCol, authorCol, userCol, dateCol);
-                ReportDAO reportDAO = new ReportDAO();
-                table.getItems().addAll(reportDAO.getActiveLoanReports());
-                table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+                reportTable.getColumns().addAll(bookCol, authorCol, userCol, loanDateCol);
+                reportTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+                reportTable.getItems().setAll(loanDAO2.getLoanReport());
 
-                contentBox.getChildren().addAll(new Label("Currently borrowed books:"), table);
+                Button refreshReports = new Button("🔄 Atualizar");
+                refreshReports.setOnAction(e -> {
+                    reportTable.getItems().setAll(loanDAO2.getLoanReport());
+                });
+
+                contentBox.getChildren().addAll(new Label("Borrowed Books Report:"), refreshReports, reportTable);
                 break;
+
+
+            case "Borrowed But Not Returned":
+                LoanDAO dao1 = new LoanDAO();
+                List<LoanReport> notReturned = dao1.getBorrowedButNotReturnedReport();
+
+                Button refreshNotReturned = new Button("🔄 Atualizar");
+                TableView<LoanReport> tableNotReturned = (TableView<LoanReport>) new FormFactory().generateLoanReportTable(notReturned);
+
+                refreshNotReturned.setOnAction(e -> {
+                    tableNotReturned.getItems().setAll(dao1.getBorrowedButNotReturnedReport());
+                });
+
+                contentBox.getChildren().addAll(
+                    new Label("Books Borrowed But Not Returned"),
+                    refreshNotReturned,
+                    tableNotReturned
+                );
+                break;
+
+            case "Returned Books":
+                LoanDAO dao2 = new LoanDAO();
+                List<LoanReport> returned = dao2.getReturnedBooksReport();
+
+                Button refreshReturned = new Button("🔄 Atualizar");
+                TableView<LoanReport> tableReturned = (TableView<LoanReport>) new FormFactory().generateLoanReportTable(returned);
+
+                refreshReturned.setOnAction(e -> {
+                    tableReturned.getItems().setAll(dao2.getReturnedBooksReport());
+                });
+
+                contentBox.getChildren().addAll(
+                    new Label("Returned Books Report"),
+                    refreshReturned,
+                    tableReturned
+                );
+                break;
+
 
             // === DEFAULT ===
             default:

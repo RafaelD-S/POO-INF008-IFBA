@@ -5,7 +5,6 @@ import br.edu.ifba.inf008.shell.components.FormFactory;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class BookView extends HBox {
@@ -26,7 +25,6 @@ public class BookView extends HBox {
 
         AsideMenu aside = new AsideMenu(actions, this::loadAction);
         this.getChildren().addAll(aside, mainContent);
-        HBox.setHgrow(mainContent, Priority.ALWAYS);
     }
 
     private void loadAction(String action) {
