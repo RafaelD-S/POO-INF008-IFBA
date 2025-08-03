@@ -1,0 +1,6 @@
+br\edu\ifba\inf008\plugins\ReportPlugin.class
+br\edu\ifba\inf008\plugins\report\views\LoanReportView.class
+br\edu\ifba\inf008\plugins\report\dao\DatabaseConnection.class
+br\edu\ifba\inf008\plugins\report\dao\LoanReportDAO.class
+br\edu\ifba\inf008\plugins\report\views\LoanReportView$1.class
+br\edu\ifba\inf008\plugins\report\models\Loan.class

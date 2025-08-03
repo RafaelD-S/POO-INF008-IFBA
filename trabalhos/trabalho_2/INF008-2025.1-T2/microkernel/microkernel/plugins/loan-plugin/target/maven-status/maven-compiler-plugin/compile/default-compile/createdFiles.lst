@@ -1,0 +1,14 @@
+br\edu\ifba\inf008\plugins\loan\views\LoanCreateView.class
+br\edu\ifba\inf008\plugins\LoanPlugin.class
+br\edu\ifba\inf008\plugins\loan\views\LoanListView$1.class
+br\edu\ifba\inf008\plugins\loan\dao\DatabaseConnection.class
+br\edu\ifba\inf008\plugins\loan\dao\LoanDAO.class
+br\edu\ifba\inf008\plugins\loan\views\LoanCreateView$UserItem.class
+br\edu\ifba\inf008\plugins\loan\views\LoanListView$2.class
+br\edu\ifba\inf008\plugins\loan\views\LoanCreateView$2.class
+br\edu\ifba\inf008\plugins\loan\model\Loan.class
+br\edu\ifba\inf008\plugins\loan\views\LoanCreateView$BookItem.class
+br\edu\ifba\inf008\plugins\loan\views\LoanListView$4.class
+br\edu\ifba\inf008\plugins\loan\views\LoanListView$3.class
+br\edu\ifba\inf008\plugins\loan\views\LoanListView.class
+br\edu\ifba\inf008\plugins\loan\views\LoanCreateView$1.class

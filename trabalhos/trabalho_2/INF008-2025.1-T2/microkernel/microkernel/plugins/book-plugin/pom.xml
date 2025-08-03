@@ -10,13 +10,37 @@
         <relativePath>../..</relativePath>
     </parent>
 
-    <artifactId>myplugin</artifactId>
+    <artifactId>book-plugin</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>br.edu.ifba.inf008</groupId>
             <artifactId>interfaces</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.edu.ifba.inf008</groupId>
+            <artifactId>executable</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>11.0.2</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>11.0.2</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>3.0.8</version>
         </dependency>
     </dependencies>
 
@@ -31,7 +55,7 @@
                     <!-- Change the output directory -->
                     <outputDirectory>${project.basedir}/../</outputDirectory>
                     <!-- Change the JAR file name -->
-                    <finalName>MyPlugin</finalName>
+                    <finalName>BookPlugin</finalName>
                 </configuration>
             </plugin>
         </plugins>

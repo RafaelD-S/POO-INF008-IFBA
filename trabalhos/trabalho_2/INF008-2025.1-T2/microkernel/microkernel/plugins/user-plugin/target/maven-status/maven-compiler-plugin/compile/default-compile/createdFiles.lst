@@ -1,0 +1,17 @@
+br\edu\ifba\inf008\plugins\user\components\UserTableComponent.class
+br\edu\ifba\inf008\plugins\user\views\UserListView$4.class
+br\edu\ifba\inf008\plugins\user\model\User.class
+br\edu\ifba\inf008\plugins\user\components\UserTableComponent$UserTableCallback.class
+br\edu\ifba\inf008\plugins\UserPlugin.class
+br\edu\ifba\inf008\plugins\user\views\UserListView.class
+br\edu\ifba\inf008\plugins\user\service\UserService.class
+br\edu\ifba\inf008\plugins\user\views\UserListView$5.class
+br\edu\ifba\inf008\plugins\user\service\UserService$ValidationResult.class
+br\edu\ifba\inf008\plugins\user\views\UserFormDialog.class
+br\edu\ifba\inf008\plugins\user\components\UserFormComponent$UserFormCallback.class
+br\edu\ifba\inf008\plugins\user\components\UserFormComponent.class
+br\edu\ifba\inf008\plugins\user\views\UserListView$1.class
+br\edu\ifba\inf008\plugins\user\dao\DatabaseConnection.class
+br\edu\ifba\inf008\plugins\user\views\UserListView$2.class
+br\edu\ifba\inf008\plugins\user\dao\UserDAO.class
+br\edu\ifba\inf008\plugins\user\views\UserListView$3.class
