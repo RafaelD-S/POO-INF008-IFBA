@@ -7,6 +7,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import br.edu.ifba.inf008.plugins.loan.dao.LoanDAO;
 import br.edu.ifba.inf008.plugins.loan.model.Loan;
@@ -36,8 +39,9 @@ public class LoanListView extends BorderPane {
     }
     
     private void initializeComponents() {
-        // Table setup
+        // Table setup with consistent styling
         loanTable = new TableView<>();
+        loanTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         setupTableColumns();
         
         // Search components
@@ -54,8 +58,8 @@ public class LoanListView extends BorderPane {
         activeOnlyCheckBox.setOnAction(e -> performSearch());
         
         newLoanButton = new Button("Novo Empréstimo");
+        newLoanButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 8 16 8 16; -fx-border-radius: 4px; -fx-background-radius: 4px;");
         newLoanButton.setOnAction(e -> showCreateLoanDialog());
-        // newLoanButton.getStyleClass().add("new-loan-button");
         
         // Progress and status
         progressIndicator = new ProgressIndicator();
@@ -70,40 +74,41 @@ public class LoanListView extends BorderPane {
         TableColumn<Loan, Integer> idColumn = new TableColumn<>("ID");
         idColumn.setCellValueFactory(cellData -> 
             new javafx.beans.property.SimpleIntegerProperty(cellData.getValue().getId()).asObject());
-        idColumn.setMinWidth(50);
+        idColumn.setPrefWidth(50);
         
         TableColumn<Loan, String> userColumn = new TableColumn<>("Usuário");
         userColumn.setCellValueFactory(cellData -> 
             new javafx.beans.property.SimpleStringProperty(cellData.getValue().getUserName()));
-        userColumn.setMinWidth(150);
+        userColumn.setPrefWidth(150);
         
         TableColumn<Loan, String> bookColumn = new TableColumn<>("Livro");
         bookColumn.setCellValueFactory(cellData -> 
             new javafx.beans.property.SimpleStringProperty(cellData.getValue().getBookTitle()));
-        bookColumn.setMinWidth(200);
+        bookColumn.setPrefWidth(200);
         
         TableColumn<Loan, String> loanDateColumn = new TableColumn<>("Data Empréstimo");
         loanDateColumn.setCellValueFactory(cellData -> 
             new javafx.beans.property.SimpleStringProperty(cellData.getValue().getLoanDate()));
-        loanDateColumn.setMinWidth(120);
+        loanDateColumn.setPrefWidth(120);
         
         TableColumn<Loan, String> returnDateColumn = new TableColumn<>("Data Devolução");
         returnDateColumn.setCellValueFactory(cellData -> 
             new javafx.beans.property.SimpleStringProperty(cellData.getValue().getReturnDate()));
-        returnDateColumn.setMinWidth(120);
+        returnDateColumn.setPrefWidth(120);
         
         TableColumn<Loan, String> statusColumn = new TableColumn<>("Status");
         statusColumn.setCellValueFactory(cellData -> 
             new javafx.beans.property.SimpleStringProperty(
                 cellData.getValue().isReturned() ? "Devolvido" : "Ativo"));
-        statusColumn.setMinWidth(80);
+        statusColumn.setPrefWidth(80);
         
-        // Action column
+        // Action column with consistent button styling
         TableColumn<Loan, Void> actionColumn = new TableColumn<>("Ações");
         actionColumn.setCellFactory(param -> new TableCell<Loan, Void>() {
             private final Button returnButton = new Button("Devolver");
             
             {
+                returnButton.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-padding: 4 8 4 8; -fx-border-radius: 3px; -fx-background-radius: 3px;");
                 returnButton.setOnAction(event -> {
                     Loan loan = getTableView().getItems().get(getIndex());
                     if (!loan.isReturned()) {
@@ -120,14 +125,16 @@ public class LoanListView extends BorderPane {
                 } else {
                     Loan loan = getTableView().getItems().get(getIndex());
                     if (loan.isReturned()) {
-                        setGraphic(new Label("Devolvido"));
+                        Label returnedLabel = new Label("Devolvido");
+                        returnedLabel.setStyle("-fx-background-color: #4caf50; -fx-text-fill: white; -fx-padding: 4 8 4 8; -fx-border-radius: 3px; -fx-background-radius: 3px;");
+                        setGraphic(returnedLabel);
                     } else {
                         setGraphic(returnButton);
                     }
                 }
             }
         });
-        actionColumn.setMinWidth(100);
+        actionColumn.setPrefWidth(100);
         
         loanTable.getColumns().addAll(idColumn, userColumn, bookColumn, 
                                      loanDateColumn, returnDateColumn, statusColumn, actionColumn);
@@ -136,14 +143,19 @@ public class LoanListView extends BorderPane {
     private void setupLayout() {
         setPadding(new Insets(10));
         
-        // Top controls
+        // Title
+        Label titleLabel = new Label("Gerenciamento de Empréstimos");
+        titleLabel.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        
+        // Top controls with consistent styling
         HBox searchBox = new HBox(10);
+        searchBox.setPadding(new Insets(10));
+        searchBox.setStyle("-fx-border-color: #cccccc; -fx-border-radius: 5; -fx-background-color: #f9f9f9;");
         searchBox.getChildren().addAll(
             new Label("Pesquisar:"), searchField,
             new Label("Por:"), searchTypeCombo,
             activeOnlyCheckBox
         );
-        searchBox.setPadding(new Insets(0, 0, 10, 0));
         
         // Top bar with search and new loan button
         HBox topBar = new HBox(10);
@@ -153,14 +165,17 @@ public class LoanListView extends BorderPane {
         // Make search box grow and button stay on the right
         HBox.setHgrow(searchBox, javafx.scene.layout.Priority.ALWAYS);
         
-        // Status bar
+        // Status bar with consistent styling
         VBox statusBox = new VBox(5);
         statusBox.getChildren().addAll(progressIndicator, statusLabel);
-        statusBox.setStyle("-fx-alignment: center;");
+        statusBox.setStyle("-fx-alignment: center; -fx-background-color: #f5f5f5; -fx-border-radius: 5; -fx-padding: 10;");
         
-        setTop(topBar);
-        setCenter(loanTable);
-        setBottom(statusBox);
+        // Main layout
+        VBox mainContent = new VBox(10);
+        mainContent.getChildren().addAll(titleLabel, topBar, loanTable, statusBox);
+        VBox.setVgrow(loanTable, Priority.ALWAYS);
+        
+        setCenter(mainContent);
     }
     
     private void loadLoans() {

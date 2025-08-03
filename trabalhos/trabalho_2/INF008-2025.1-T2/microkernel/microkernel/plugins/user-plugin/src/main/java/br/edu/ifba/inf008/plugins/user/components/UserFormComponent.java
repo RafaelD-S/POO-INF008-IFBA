@@ -97,12 +97,19 @@ public class UserFormComponent extends VBox {
         
         if (nameField.getText().trim().isEmpty()) {
             errors.append("- Nome é obrigatório\n");
+            nameField.setStyle("-fx-border-color: #f44336; -fx-border-width: 2px;");
+        } else {
+            nameField.setStyle("-fx-border-color: #4CAF50; -fx-border-width: 1px;");
         }
         
         if (emailField.getText().trim().isEmpty()) {
             errors.append("- Email é obrigatório\n");
+            emailField.setStyle("-fx-border-color: #f44336; -fx-border-width: 2px;");
         } else if (!isValidEmail(emailField.getText().trim())) {
-            errors.append("- Email deve ter um formato válido\n");
+            errors.append("- Email deve ter um formato válido\n"); 
+            emailField.setStyle("-fx-border-color: #f44336; -fx-border-width: 2px;");
+        } else {
+            emailField.setStyle("-fx-border-color: #4CAF50; -fx-border-width: 1px;");
         }
         
         if (errors.length() > 0) {

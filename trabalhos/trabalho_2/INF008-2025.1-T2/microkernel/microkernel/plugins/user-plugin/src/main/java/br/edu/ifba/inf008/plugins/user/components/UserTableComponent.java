@@ -1,14 +1,21 @@
 package br.edu.ifba.inf008.plugins.user.components;
 
+import br.edu.ifba.inf008.plugins.user.model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import br.edu.ifba.inf008.plugins.user.model.User;
 
 public class UserTableComponent extends VBox {
     private TextField searchField;
@@ -45,6 +52,7 @@ public class UserTableComponent extends VBox {
         // Table
         userTable = new TableView<>();
         userTable.setItems(users);
+        userTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         userTable.setRowFactory(tv -> {
             TableRow<User> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
@@ -57,24 +65,26 @@ public class UserTableComponent extends VBox {
         
         setupTableColumns();
         
-        // Buttons
+        // Buttons with consistent styling
         addButton = new Button("Adicionar");
-        addButton.getStyleClass().add("btn-primary");
+        addButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 8 16 8 16; -fx-border-radius: 4px; -fx-background-radius: 4px;");
         
         editButton = new Button("Editar");
+        editButton.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-padding: 8 16 8 16; -fx-border-radius: 4px; -fx-background-radius: 4px;");
         editButton.setDisable(true);
         
         deleteButton = new Button("Excluir");
-        deleteButton.getStyleClass().add("btn-danger");
+        deleteButton.setStyle("-fx-background-color: #f44336; -fx-text-fill: white; -fx-padding: 8 16 8 16; -fx-border-radius: 4px; -fx-background-radius: 4px;");
         deleteButton.setDisable(true);
         
         refreshButton = new Button("Atualizar");
+        refreshButton.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white; -fx-padding: 8 16 8 16; -fx-border-radius: 4px; -fx-background-radius: 4px;");
     }
     
     private void setupTableColumns() {
         TableColumn<User, Integer> idColumn = new TableColumn<>("ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        idColumn.setPrefWidth(60);
+        idColumn.setPrefWidth(50);
         idColumn.setResizable(false);
         
         TableColumn<User, String> nameColumn = new TableColumn<>("Nome");

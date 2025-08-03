@@ -86,23 +86,26 @@ public class LoanCreateView extends BorderPane {
         userComboBox = new ComboBox<>();
         userComboBox.setPromptText("Selecione um usuário");
         userComboBox.setMaxWidth(Double.MAX_VALUE);
+        userComboBox.setStyle("-fx-padding: 8px 12px; -fx-border-radius: 4px; -fx-background-radius: 4px;");
         
         bookComboBox = new ComboBox<>();
         bookComboBox.setPromptText("Selecione um livro");
         bookComboBox.setMaxWidth(Double.MAX_VALUE);
+        bookComboBox.setStyle("-fx-padding: 8px 12px; -fx-border-radius: 4px; -fx-background-radius: 4px;");
         
         loanDatePicker = new DatePicker(LocalDate.now());
         loanDatePicker.setMaxWidth(Double.MAX_VALUE);
+        loanDatePicker.setStyle("-fx-padding: 8px 12px; -fx-border-radius: 4px; -fx-background-radius: 4px;");
         
         createButton = new Button("Criar Empréstimo");
+        createButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 8 16 8 16; -fx-border-radius: 4px; -fx-background-radius: 4px;");
         createButton.setOnAction(e -> createLoan());
         createButton.setDefaultButton(true);
         createButton.setDisable(true);
-        createButton.getStyleClass().add("create-button");
         
         cancelButton = new Button("Cancelar");
+        cancelButton.setStyle("-fx-background-color: #f44336; -fx-text-fill: white; -fx-padding: 8 16 8 16; -fx-border-radius: 4px; -fx-background-radius: 4px;");
         cancelButton.setOnAction(e -> clearForm());
-        cancelButton.getStyleClass().add("cancel-button");
         
         progressIndicator = new ProgressIndicator();
         progressIndicator.setVisible(false);
@@ -243,13 +246,14 @@ public class LoanCreateView extends BorderPane {
     }
     
     private void updateComboBoxStyle(ComboBox<?> comboBox, boolean isValid) {
-        comboBox.getStyleClass().removeAll("field-error", "field-valid");
         if (comboBox.getValue() != null) {
             if (isValid) {
-                comboBox.getStyleClass().add("field-valid");
+                comboBox.setStyle("-fx-padding: 8px 12px; -fx-border-radius: 4px; -fx-background-radius: 4px; -fx-border-color: #4CAF50; -fx-border-width: 1px;");
             } else {
-                comboBox.getStyleClass().add("field-error");
+                comboBox.setStyle("-fx-padding: 8px 12px; -fx-border-radius: 4px; -fx-background-radius: 4px; -fx-border-color: #f44336; -fx-border-width: 2px;");
             }
+        } else {
+            comboBox.setStyle("-fx-padding: 8px 12px; -fx-border-radius: 4px; -fx-background-radius: 4px;");
         }
     }
     
@@ -334,9 +338,9 @@ public class LoanCreateView extends BorderPane {
     }
     
     private void clearValidationStyles() {
-        userComboBox.getStyleClass().removeAll("field-error", "field-valid");
-        bookComboBox.getStyleClass().removeAll("field-error", "field-valid");
-        loanDatePicker.getStyleClass().removeAll("field-error", "field-valid");
+        userComboBox.setStyle("-fx-padding: 8px 12px; -fx-border-radius: 4px; -fx-background-radius: 4px;");
+        bookComboBox.setStyle("-fx-padding: 8px 12px; -fx-border-radius: 4px; -fx-background-radius: 4px;");
+        loanDatePicker.setStyle("-fx-padding: 8px 12px; -fx-border-radius: 4px; -fx-background-radius: 4px;");
     }
     
     private void showValidationError(String header, String content) {

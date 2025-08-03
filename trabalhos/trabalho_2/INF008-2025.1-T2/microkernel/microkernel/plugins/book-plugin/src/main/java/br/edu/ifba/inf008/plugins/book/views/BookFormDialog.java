@@ -25,7 +25,7 @@ public class BookFormDialog extends Dialog<Book> {
         setTitle(book == null ? "Adicionar Livro" : "Editar Livro");
         setHeaderText(book == null ? "Cadastro de novo livro" : "Edição de livro");
         
-        // Set the button types
+        // Set the button types with consistent styling
         ButtonType saveButtonType = new ButtonType("Salvar", ButtonBar.ButtonData.OK_DONE);
         getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
         
@@ -34,36 +34,54 @@ public class BookFormDialog extends Dialog<Book> {
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(20, 150, 10, 10));
+        grid.setStyle("-fx-background-color: #f8f9fa;");
         
         titleField = new TextField();
         titleField.setPromptText("Título do livro");
         titleField.setPrefWidth(300);
+        titleField.setStyle("-fx-padding: 8px 12px; -fx-border-radius: 4px; -fx-background-radius: 4px;");
         
         authorField = new TextField();
         authorField.setPromptText("Autor do livro");
         authorField.setPrefWidth(300);
+        authorField.setStyle("-fx-padding: 8px 12px; -fx-border-radius: 4px; -fx-background-radius: 4px;");
         
         isbnField = new TextField();
         isbnField.setPromptText("ISBN");
         isbnField.setPrefWidth(300);
+        isbnField.setStyle("-fx-padding: 8px 12px; -fx-border-radius: 4px; -fx-background-radius: 4px;");
         
         yearField = new TextField();
         yearField.setPromptText("Ano de publicação");
         yearField.setPrefWidth(300);
+        yearField.setStyle("-fx-padding: 8px 12px; -fx-border-radius: 4px; -fx-background-radius: 4px;");
         
         copiesField = new TextField();
         copiesField.setPromptText("Número de cópias");
         copiesField.setPrefWidth(300);
+        copiesField.setStyle("-fx-padding: 8px 12px; -fx-border-radius: 4px; -fx-background-radius: 4px;");
         
-        grid.add(new Label("Título:"), 0, 0);
+        // Labels with consistent styling
+        Label titleLabel = new Label("Título:");
+        titleLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #495057;");
+        Label authorLabel = new Label("Autor:");
+        authorLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #495057;");
+        Label isbnLabel = new Label("ISBN:");
+        isbnLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #495057;");
+        Label yearLabel = new Label("Ano:");
+        yearLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #495057;");
+        Label copiesLabel = new Label("Cópias:");
+        copiesLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #495057;");
+        
+        grid.add(titleLabel, 0, 0);
         grid.add(titleField, 1, 0);
-        grid.add(new Label("Autor:"), 0, 1);
+        grid.add(authorLabel, 0, 1);
         grid.add(authorField, 1, 1);
-        grid.add(new Label("ISBN:"), 0, 2);
+        grid.add(isbnLabel, 0, 2);
         grid.add(isbnField, 1, 2);
-        grid.add(new Label("Ano:"), 0, 3);
+        grid.add(yearLabel, 0, 3);
         grid.add(yearField, 1, 3);
-        grid.add(new Label("Cópias:"), 0, 4);
+        grid.add(copiesLabel, 0, 4);
         grid.add(copiesField, 1, 4);
         
         // Load existing data if editing
@@ -77,8 +95,15 @@ public class BookFormDialog extends Dialog<Book> {
         
         getDialogPane().setContent(grid);
         
-        // Enable/Disable save button depending on whether form is valid
+        // Style the buttons
         Button saveButton = (Button) getDialogPane().lookupButton(saveButtonType);
+        saveButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 8 16 8 16;");
+        saveButton.setDisable(true);
+        
+        Button cancelButton = (Button) getDialogPane().lookupButton(ButtonType.CANCEL);
+        cancelButton.setStyle("-fx-background-color: #f44336; -fx-text-fill: white; -fx-padding: 8 16 8 16;");
+        
+        // Enable/Disable save button depending on whether form is valid
         saveButton.setDisable(true);
         
         // Validation
@@ -133,13 +158,14 @@ public class BookFormDialog extends Dialog<Book> {
     }
     
     private void updateFieldStyle(TextField field, boolean isValid) {
-        field.getStyleClass().removeAll("field-error", "field-valid");
         if (!field.getText().trim().isEmpty()) {
             if (isValid) {
-                field.getStyleClass().add("field-valid");
+                field.setStyle("-fx-padding: 8px 12px; -fx-border-radius: 4px; -fx-background-radius: 4px; -fx-border-color: #4CAF50; -fx-border-width: 1px;");
             } else {
-                field.getStyleClass().add("field-error");
+                field.setStyle("-fx-padding: 8px 12px; -fx-border-radius: 4px; -fx-background-radius: 4px; -fx-border-color: #f44336; -fx-border-width: 2px;");
             }
+        } else {
+            field.setStyle("-fx-padding: 8px 12px; -fx-border-radius: 4px; -fx-background-radius: 4px;");
         }
     }
     

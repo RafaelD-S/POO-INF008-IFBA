@@ -1,16 +1,25 @@
 package br.edu.ifba.inf008.plugins.book.views;
 
+import br.edu.ifba.inf008.plugins.book.dao.BookDAO;
+import br.edu.ifba.inf008.plugins.book.model.Book;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import br.edu.ifba.inf008.plugins.book.model.Book;
-import br.edu.ifba.inf008.plugins.book.dao.BookDAO;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 public class BookListView extends BorderPane {
     private TableView<Book> bookTable;
@@ -38,24 +47,25 @@ public class BookListView extends BorderPane {
         searchField.setPromptText("Buscar livros...");
         searchField.setPrefWidth(300);
         
-        // Buttons
+        // Buttons with consistent styling
         addButton = new Button("Adicionar");
-        addButton.getStyleClass().addAll("btn", "btn-primary");
+        addButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 8 16 8 16; -fx-border-radius: 4px; -fx-background-radius: 4px;");
         
         editButton = new Button("Editar");
-        editButton.getStyleClass().addAll("btn", "btn-secondary");
+        editButton.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-padding: 8 16 8 16; -fx-border-radius: 4px; -fx-background-radius: 4px;");
         editButton.setDisable(true);
         
         deleteButton = new Button("Excluir");
-        deleteButton.getStyleClass().addAll("btn", "btn-danger");
+        deleteButton.setStyle("-fx-background-color: #f44336; -fx-text-fill: white; -fx-padding: 8 16 8 16; -fx-border-radius: 4px; -fx-background-radius: 4px;");
         deleteButton.setDisable(true);
         
         refreshButton = new Button("Atualizar");
-        refreshButton.getStyleClass().addAll("btn", "btn-outline");
+        refreshButton.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white; -fx-padding: 8 16 8 16; -fx-border-radius: 4px; -fx-background-radius: 4px;");
         
-        // Table
+        // Table with consistent styling
         bookTable = new TableView<>();
         bookTable.setItems(bookList);
+        bookTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         setupTableColumns();
     }
     
@@ -63,34 +73,70 @@ public class BookListView extends BorderPane {
         TableColumn<Book, Integer> idColumn = new TableColumn<>("ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         idColumn.setPrefWidth(50);
+        idColumn.setResizable(false);
         
         TableColumn<Book, String> titleColumn = new TableColumn<>("Título");
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-        titleColumn.setPrefWidth(250);
+        titleColumn.setPrefWidth(200);
         
         TableColumn<Book, String> authorColumn = new TableColumn<>("Autor");
         authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
-        authorColumn.setPrefWidth(200);
+        authorColumn.setPrefWidth(150);
         
         TableColumn<Book, String> isbnColumn = new TableColumn<>("ISBN");
         isbnColumn.setCellValueFactory(new PropertyValueFactory<>("isbn"));
-        isbnColumn.setPrefWidth(150);
+        isbnColumn.setPrefWidth(120);
         
         TableColumn<Book, Integer> yearColumn = new TableColumn<>("Ano");
         yearColumn.setCellValueFactory(new PropertyValueFactory<>("publishedYear"));
         yearColumn.setPrefWidth(80);
         
-        TableColumn<Book, Integer> copiesColumn = new TableColumn<>("Cópias");
-        copiesColumn.setCellValueFactory(new PropertyValueFactory<>("copiesAvailable"));
+        TableColumn<Book, String> copiesColumn = new TableColumn<>("Cópias");
+        copiesColumn.setCellValueFactory(cellData -> {
+            int copies = cellData.getValue().getCopiesAvailable();
+            return new javafx.beans.property.SimpleStringProperty(String.valueOf(copies));
+        });
         copiesColumn.setPrefWidth(80);
         
-        bookTable.getColumns().addAll(idColumn, titleColumn, authorColumn, isbnColumn, yearColumn, copiesColumn);
+        // Add availability status column with color coding like reports
+        TableColumn<Book, String> statusColumn = new TableColumn<>("Status");
+        statusColumn.setCellValueFactory(cellData -> {
+            int copies = cellData.getValue().getCopiesAvailable();
+            return new javafx.beans.property.SimpleStringProperty(copies > 0 ? "Disponível" : "Indisponível");
+        });
+        statusColumn.setPrefWidth(100);
+        
+        // Style status column with colors similar to report plugin
+        statusColumn.setCellFactory(column -> new javafx.scene.control.TableCell<Book, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    setText(item);
+                    if ("Disponível".equals(item)) {
+                        setStyle("-fx-background-color: #4caf50; -fx-text-fill: white; -fx-padding: 4 8 4 8; -fx-border-radius: 3px; -fx-background-radius: 3px;");
+                    } else {
+                        setStyle("-fx-background-color: #ffeb3b; -fx-text-fill: black; -fx-padding: 4 8 4 8; -fx-border-radius: 3px; -fx-background-radius: 3px;");
+                    }
+                }
+            }
+        });
+        
+        bookTable.getColumns().addAll(idColumn, titleColumn, authorColumn, isbnColumn, yearColumn, copiesColumn, statusColumn);
     }
     
     private void setupLayout() {
-        // Top toolbar
+        // Title
+        Label titleLabel = new Label("Gerenciamento de Livros");
+        titleLabel.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        
+        // Filter panel with styling matching reports
         HBox searchBox = new HBox(10);
         searchBox.setPadding(new Insets(10));
+        searchBox.setStyle("-fx-border-color: #cccccc; -fx-border-radius: 5; -fx-background-color: #f9f9f9;");
         searchBox.getChildren().addAll(
             new Label("Buscar:"), 
             searchField,
@@ -98,54 +144,99 @@ public class BookListView extends BorderPane {
         );
         HBox.setHgrow(searchField, Priority.ALWAYS);
         
-        // Button toolbar
+        // Button toolbar with consistent spacing
         HBox buttonBox = new HBox(10);
         buttonBox.setPadding(new Insets(10));
         buttonBox.getChildren().addAll(addButton, editButton, deleteButton);
         
-        VBox topBox = new VBox();
-        topBox.getChildren().addAll(searchBox, buttonBox);
+        // Stats panel similar to reports
+        HBox statsPanel = new HBox(30);
+        statsPanel.setPadding(new Insets(10));
+        statsPanel.setStyle("-fx-background-color: #f5f5f5; -fx-border-radius: 5;");
         
-        // Layout
-        setTop(topBox);
-        setCenter(bookTable);
+        // Add book statistics
+        Label totalBooksLabel = new Label();
+        Label availableBooksLabel = new Label(); 
+        Label unavailableBooksLabel = new Label();
+        updateBookStats(totalBooksLabel, availableBooksLabel, unavailableBooksLabel);
         
-        setPadding(new Insets(10));
+        statsPanel.getChildren().addAll(totalBooksLabel, availableBooksLabel, unavailableBooksLabel);
+        
+        // Main layout with consistent spacing matching reports
+        VBox mainContent = new VBox(10);
+        mainContent.setPadding(new Insets(10));
+        mainContent.getChildren().addAll(titleLabel, searchBox, buttonBox, statsPanel, bookTable);
+        VBox.setVgrow(bookTable, Priority.ALWAYS);
+        
+        setCenter(mainContent);
     }
     
+    private void updateBookStats(Label totalLabel, Label availableLabel, Label unavailableLabel) {
+        int total = bookList.size();
+        long available = bookList.stream().filter(book -> book.getCopiesAvailable() > 0).count();
+        long unavailable = bookList.stream().filter(book -> book.getCopiesAvailable() == 0).count();
+        
+        totalLabel.setText("Total de Livros: " + total);
+        availableLabel.setText("Livros Disponíveis: " + available);
+        unavailableLabel.setText("Livros Indisponíveis: " + unavailable);
+    }
+
+    // Added missing setupEvents() method
     private void setupEvents() {
-        // Search functionality
-        searchField.textProperty().addListener((obs, oldVal, newVal) -> filterBooks(newVal));
-        
-        // Table selection
+        // Enable/disable edit and delete buttons based on selection
         bookTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            boolean hasSelection = newSelection != null;
-            editButton.setDisable(!hasSelection);
-            deleteButton.setDisable(!hasSelection);
+            boolean selected = newSelection != null;
+            editButton.setDisable(!selected);
+            deleteButton.setDisable(!selected);
         });
-        
-        // Double click to edit
+
+        // Search field event
+        searchField.textProperty().addListener((obs, oldText, newText) -> {
+            filterBooks(newText);
+        });
+
+        // Refresh button event
+        refreshButton.setOnAction(e -> loadBooks());
+
+        // Add button event
+        addButton.setOnAction(e -> addBook());
+
+        // Edit button event
+        editButton.setOnAction(e -> editBook());
+
+        // Delete button event
+        deleteButton.setOnAction(e -> deleteBook());
+
+        // Double-click row to edit
         bookTable.setRowFactory(tv -> {
             TableRow<Book> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 && !row.isEmpty()) {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
                     editBook();
                 }
             });
             return row;
         });
-        
-        // Button events
-        addButton.setOnAction(e -> addBook());
-        editButton.setOnAction(e -> editBook());
-        deleteButton.setOnAction(e -> deleteBook());
-        refreshButton.setOnAction(e -> loadBooks());
     }
     
     private void loadBooks() {
         try {
             bookList.clear();
             bookList.addAll(bookDAO.findAll());
+            // Update stats after loading
+            if (getCenter() instanceof VBox) {
+                VBox mainContent = (VBox) getCenter();
+                if (mainContent.getChildren().size() > 3 && mainContent.getChildren().get(3) instanceof HBox) {
+                    HBox statsPanel = (HBox) mainContent.getChildren().get(3);
+                    if (statsPanel.getChildren().size() >= 3) {
+                        updateBookStats(
+                            (Label) statsPanel.getChildren().get(0),
+                            (Label) statsPanel.getChildren().get(1), 
+                            (Label) statsPanel.getChildren().get(2)
+                        );
+                    }
+                }
+            }
         } catch (Exception e) {
             showError("Erro ao carregar livros", e.getMessage());
         }
@@ -158,6 +249,20 @@ public class BookListView extends BorderPane {
             try {
                 bookList.clear();
                 bookList.addAll(bookDAO.findByTitleContaining(searchText.trim()));
+                // Update stats after filtering
+                if (getCenter() instanceof VBox) {
+                    VBox mainContent = (VBox) getCenter();
+                    if (mainContent.getChildren().size() > 3 && mainContent.getChildren().get(3) instanceof HBox) {
+                        HBox statsPanel = (HBox) mainContent.getChildren().get(3);
+                        if (statsPanel.getChildren().size() >= 3) {
+                            updateBookStats(
+                                (Label) statsPanel.getChildren().get(0),
+                                (Label) statsPanel.getChildren().get(1), 
+                                (Label) statsPanel.getChildren().get(2)
+                            );
+                        }
+                    }
+                }
             } catch (Exception e) {
                 showError("Erro ao filtrar livros", e.getMessage());
             }

@@ -6,7 +6,10 @@ import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
 import br.edu.ifba.inf008.plugins.user.components.UserTableComponent;
 import br.edu.ifba.inf008.plugins.user.dao.UserDAO;
@@ -41,13 +44,21 @@ public class UserListView extends BorderPane implements UserTableComponent.UserT
     private void setupLayout() {
         setPadding(new Insets(10));
         
-        // Status bar
+        // Title
+        Label titleLabel = new Label("Gerenciamento de Usuários");
+        titleLabel.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        
+        // Status bar with consistent styling
         VBox statusBox = new VBox(5);
         statusBox.getChildren().addAll(progressIndicator, statusLabel);
-        statusBox.setStyle("-fx-alignment: center;");
+        statusBox.setStyle("-fx-alignment: center; -fx-background-color: #f5f5f5; -fx-border-radius: 5; -fx-padding: 10;");
         
-        setCenter(userTable);
-        setBottom(statusBox);
+        // Main layout with consistent spacing and styling
+        VBox mainContent = new VBox(10);
+        mainContent.getChildren().addAll(titleLabel, userTable, statusBox);
+        VBox.setVgrow(userTable, Priority.ALWAYS);
+        
+        setCenter(mainContent);
     }
     
     private void loadUsers() {

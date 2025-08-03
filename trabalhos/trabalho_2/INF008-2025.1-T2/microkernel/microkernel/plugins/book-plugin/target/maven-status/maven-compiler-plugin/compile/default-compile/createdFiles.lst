@@ -1,3 +1,4 @@
+br\edu\ifba\inf008\plugins\book\views\BookListView$1.class
 br\edu\ifba\inf008\plugins\book\dao\BookDAO.class
 br\edu\ifba\inf008\plugins\book\dao\DatabaseConnection.class
 br\edu\ifba\inf008\plugins\book\views\BookFormDialog.class

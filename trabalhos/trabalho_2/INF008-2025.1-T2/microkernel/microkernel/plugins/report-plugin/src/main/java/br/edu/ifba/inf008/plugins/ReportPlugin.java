@@ -33,7 +33,7 @@ public class ReportPlugin implements IPlugin {
             boolean menuCreated = uiController.createMenuItem("Relatórios", "Relatório de Empréstimos") != null;
             
             // Create tab
-            boolean tabCreated = uiController.createTab("Relatórios", reportView);
+            boolean tabCreated = uiController.createTab("Relatório de Empréstimos", reportView);
             
             if (menuCreated && tabCreated) {
                 System.out.println("ReportPlugin: Plugin inicializado com sucesso");
