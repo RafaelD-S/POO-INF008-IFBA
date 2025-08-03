@@ -1,20 +1,31 @@
 package br.edu.ifba.inf008.plugins.report.views;
 
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.List;
+
 import br.edu.ifba.inf008.plugins.report.dao.LoanReportDAO;
 import br.edu.ifba.inf008.plugins.report.models.Loan;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.List;
 
 public class LoanReportView extends VBox {
     private LoanReportDAO dao;
@@ -210,63 +221,83 @@ public class LoanReportView extends VBox {
     }
 
     private void loadData() {
-        Platform.runLater(() -> {
+        // Run database operation in background thread
+        new Thread(() -> {
             try {
                 List<Loan> allLoans = dao.getAllLoans();
-                loans.clear();
-                loans.addAll(allLoans);
-                updateStats();
+                
+                // Update UI in JavaFX Application Thread
+                Platform.runLater(() -> {
+                    loans.clear();
+                    loans.addAll(allLoans);
+                    updateStats();
+                });
+                
             } catch (SQLException e) {
-                showError("Erro ao carregar dados", e.getMessage());
+                Platform.runLater(() -> {
+                    showError("Erro ao carregar dados", "Erro na consulta ao banco: " + e.getMessage());
+                    e.printStackTrace();
+                });
             }
-        });
+        }).start();
     }
 
     private void applyFilters() {
-        try {
-            List<Loan> filteredLoans;
-            
-            String userFilter = userFilterField.getText().trim();
-            String bookFilter = bookFilterField.getText().trim();
-            String statusFilterValue = statusFilter.getValue();
-            LocalDate startDate = startDatePicker.getValue();
-            LocalDate endDate = endDatePicker.getValue();
-            
-            // Apply date range filter first if both dates are selected
-            if (startDate != null && endDate != null) {
-                filteredLoans = dao.getLoansByDateRange(startDate.toString(), endDate.toString());
-            } else {
-                filteredLoans = dao.getAllLoans();
+        // Run database operation in background thread
+        new Thread(() -> {
+            try {
+                String userFilter = userFilterField.getText().trim();
+                String bookFilter = bookFilterField.getText().trim();
+                String statusFilterValue = statusFilter.getValue();
+                LocalDate startDate = startDatePicker.getValue();
+                LocalDate endDate = endDatePicker.getValue();
+
+                List<Loan> filteredLoansTemp;
+
+                // Apply date range filter first if both dates are selected
+                if (startDate != null && endDate != null) {
+                    filteredLoansTemp = dao.getLoansByDateRange(startDate.toString(), endDate.toString());
+                } else {
+                    filteredLoansTemp = dao.getAllLoans();
+                }
+
+                // Apply other filters
+                if (!userFilter.isEmpty()) {
+                    filteredLoansTemp = filteredLoansTemp.stream()
+                        .filter(loan -> loan.getUserName().toLowerCase().contains(userFilter.toLowerCase()))
+                        .toList();
+                }
+
+                if (!bookFilter.isEmpty()) {
+                    filteredLoansTemp = filteredLoansTemp.stream()
+                        .filter(loan -> loan.getBookTitle().toLowerCase().contains(bookFilter.toLowerCase()))
+                        .toList();
+                }
+
+                // Apply status filter
+                if (!"Todos".equals(statusFilterValue)) {
+                    boolean showReturned = "Devolvidos".equals(statusFilterValue);
+                    filteredLoansTemp = filteredLoansTemp.stream()
+                        .filter(loan -> loan.isReturned() == showReturned)
+                        .toList();
+                }
+
+                final List<Loan> filteredLoans = filteredLoansTemp;
+
+                // Update UI in JavaFX Application Thread
+                Platform.runLater(() -> {
+                    loans.clear();
+                    loans.addAll(filteredLoans);
+                    updateStats();
+                });
+
+            } catch (SQLException e) {
+                Platform.runLater(() -> {
+                    showError("Erro ao aplicar filtros", "Erro na consulta ao banco: " + e.getMessage());
+                    e.printStackTrace();
+                });
             }
-            
-            // Apply other filters
-            if (!userFilter.isEmpty()) {
-                filteredLoans = filteredLoans.stream()
-                    .filter(loan -> loan.getUserName().toLowerCase().contains(userFilter.toLowerCase()))
-                    .toList();
-            }
-            
-            if (!bookFilter.isEmpty()) {
-                filteredLoans = filteredLoans.stream()
-                    .filter(loan -> loan.getBookTitle().toLowerCase().contains(bookFilter.toLowerCase()))
-                    .toList();
-            }
-            
-            // Apply status filter
-            if (!"Todos".equals(statusFilterValue)) {
-                boolean showReturned = "Devolvidos".equals(statusFilterValue);
-                filteredLoans = filteredLoans.stream()
-                    .filter(loan -> loan.isReturned() == showReturned)
-                    .toList();
-            }
-            
-            loans.clear();
-            loans.addAll(filteredLoans);
-            updateStats();
-            
-        } catch (SQLException e) {
-            showError("Erro ao aplicar filtros", e.getMessage());
-        }
+        }).start();
     }
 
     private void clearFilters() {
